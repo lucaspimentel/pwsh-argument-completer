@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="src\PowerShellArgumentCompleter.csproj" Type="Classic C#" />
+  <Project Path="test\PowerShellArgumentCompleter.Tests.csproj" Type="Classic C#" />
+</Solution>
