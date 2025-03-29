@@ -1,4 +1,6 @@
-﻿namespace PowerShellArgumentCompleter;
+﻿using System.Diagnostics;
+
+namespace PowerShellArgumentCompleter;
 
 public interface ISegment
 {
@@ -8,7 +10,7 @@ public interface ISegment
 
 public interface ISegmentWithPredictions : ISegment
 {
-    List<ISegment> GetPredictions(ReadOnlySpan<char> wordToComplete);
+    List<ISegment> GetCompletion(ReadOnlySpan<char> wordToComplete);
 }
 
 public sealed class Command(string name) : ISegmentWithPredictions
@@ -19,12 +21,12 @@ public sealed class Command(string name) : ISegmentWithPredictions
     public CommandParameter[] Parameters { get; init; } = [];
     public DynamicArgumentsFactory? DynamicArguments { get; init; }
 
-    public ISegment Find(ReadOnlySpan<char> segment)
+    public ISegment? Find(ReadOnlySpan<char> segment)
     {
         Logger.Debug($"Searching for \"{segment}\"");
         segment = segment.Trim();
 
-        if (segment.Length == 0 || segment.Equals(Name, StringComparison.OrdinalIgnoreCase))
+        if (segment.Length == 0 || Name.AsSpan().Equals(segment, StringComparison.OrdinalIgnoreCase))
         {
             Logger.Debug($"Returning root command for \"{Name}\".");
             return this;
@@ -34,7 +36,7 @@ public sealed class Command(string name) : ISegmentWithPredictions
         {
             if (command.Name.AsSpan().StartsWith(segment, StringComparison.OrdinalIgnoreCase))
             {
-                Logger.Debug($"Found \"{command.Name}\"");
+                Logger.Debug($"Found subcommand \"{command.Name}\"");
                 return command;
             }
         }
@@ -43,7 +45,7 @@ public sealed class Command(string name) : ISegmentWithPredictions
         {
             if (parameter.Name.AsSpan().StartsWith(segment, StringComparison.OrdinalIgnoreCase))
             {
-                Logger.Debug($"Found \"{parameter.Name}\"");
+                Logger.Debug($"Found parameter \"{parameter.Name}\"");
                 return parameter;
             }
         }
@@ -54,24 +56,29 @@ public sealed class Command(string name) : ISegmentWithPredictions
             {
                 if (argument.Name.AsSpan().StartsWith(segment, StringComparison.OrdinalIgnoreCase))
                 {
-                    Logger.Debug($"Found \"{argument.Name}\"");
+                    Logger.Debug($"Found dynamic argument \"{argument.Name}\"");
                     return argument;
                 }
             }
         }
 
-        Logger.Debug($"\"{segment}\" not found. Returning root command.");
-        return this;
+        Logger.Debug($"\"{segment}\" not found.");
+        return null;
     }
 
-    public List<ISegment> GetPredictions(ReadOnlySpan<char> wordToComplete)
+    public List<ISegment> GetCompletion(ReadOnlySpan<char> wordToComplete)
     {
         var results = new List<ISegment>();
         wordToComplete = wordToComplete.Trim();
 
+        if (wordToComplete.Length != 0 && Name.AsSpan().StartsWith(wordToComplete, StringComparison.OrdinalIgnoreCase))
+        {
+            results.Add(this);
+        }
+
         foreach (var command in SubCommands)
         {
-            if (wordToComplete.Length == 0 || wordToComplete.Equals(command.Name, StringComparison.OrdinalIgnoreCase))
+            if (wordToComplete.Length == 0 || command.Name.AsSpan().StartsWith(wordToComplete, StringComparison.OrdinalIgnoreCase))
             {
                 results.Add(command);
             }
@@ -79,7 +86,7 @@ public sealed class Command(string name) : ISegmentWithPredictions
 
         foreach (var parameter in Parameters)
         {
-            if (wordToComplete.Length == 0 || wordToComplete.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase))
+            if (wordToComplete.Length == 0 || parameter.Name.AsSpan().StartsWith(wordToComplete, StringComparison.OrdinalIgnoreCase))
             {
                 results.Add(parameter);
             }
@@ -89,7 +96,7 @@ public sealed class Command(string name) : ISegmentWithPredictions
         {
             foreach (var argument in arguments)
             {
-                if (wordToComplete.Length == 0 || wordToComplete.Equals(argument.Name, StringComparison.OrdinalIgnoreCase))
+                if (wordToComplete.Length == 0 || argument.Name.AsSpan().StartsWith(wordToComplete, StringComparison.OrdinalIgnoreCase))
                 {
                     results.Add(argument);
                 }
@@ -97,6 +104,11 @@ public sealed class Command(string name) : ISegmentWithPredictions
         }
 
         return results;
+    }
+
+    public override string ToString()
+    {
+        return Name;
     }
 }
 
@@ -107,7 +119,7 @@ public sealed class CommandParameter(string name) : ISegmentWithPredictions
     public StaticArgument[] StaticArguments { get; init; } = [];
     public DynamicArgumentsFactory? DynamicArguments { get; init; }
 
-    public List<ISegment> GetPredictions(ReadOnlySpan<char> wordToComplete)
+    public List<ISegment> GetCompletion(ReadOnlySpan<char> wordToComplete)
     {
         var results = new List<ISegment>();
 
@@ -132,18 +144,35 @@ public sealed class CommandParameter(string name) : ISegmentWithPredictions
 
         return results;
     }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }
 
+[DebuggerDisplay("{Name,nq}")]
 public sealed class StaticArgument(string name) : ISegment
 {
     public string Name { get; } = name;
     public string? Tooltip { get; init; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }
 
+[DebuggerDisplay("{Name,nq}")]
 public sealed class DynamicArgument(string name) : ISegment
 {
     public string Name { get; } = name;
     public string? Tooltip { get; init; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }
 
 public delegate DynamicArgument[] DynamicArgumentsFactory();

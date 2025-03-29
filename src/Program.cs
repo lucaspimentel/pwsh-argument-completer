@@ -28,47 +28,32 @@ internal static class Program
 {
     public static void Main(string[] args)
     {
-        var allArgs = string.Join(" ", args);
-        Logger.Debug($"Received args: {allArgs}");
-
-        // var wordToComplete = args[0];
-        var commandAst = args[1];
-        var cursorPosition = int.Parse(args[2]);
-
-        if (commandAst.StartsWith("scoop", StringComparison.OrdinalIgnoreCase))
+        try
         {
-            var command = ScoopCommand.Create();
-            var argumentEnumerator = commandAst.AsSpan().Split(' ');
-            ISegment? segment = null;
-            ReadOnlySpan<char> lastArgument = default;
+            var allArgs = string.Join(", ", args.Select(a => $"\"{a}\""));
+            Logger.Debug($"Received args: {allArgs}");
 
-            // Skip the first argument (the command name)
-            argumentEnumerator.MoveNext();
+            // var wordToComplete = args[0];
+            var cursorPosition = int.Parse(args[2]);
+            var commandAst = args[1].AsSpan(0, Math.Max(0, cursorPosition - 1));
 
-            while (argumentEnumerator.MoveNext())
-            {
-                lastArgument = commandAst.AsSpan(argumentEnumerator.Current);
+            var completions = CommandCompleter.GetCompletions(commandAst);
 
-                Logger.Debug($"Enumerating. Current: {argumentEnumerator.Current}");
-
-                segment = command.Find(lastArgument);
-            }
-
-            if (segment is ISegmentWithPredictions swp)
-            {
-                var predictions = swp.GetPredictions(lastArgument);
-
-                foreach (var prediction in predictions)
-                {
-                    // completionText|listItemText|toolTip
-                    Console.WriteLine($"{prediction.Name}|{prediction.Name}|{prediction.Tooltip}");
-                }
-            }
-            else if (segment is not null)
+            foreach (var prediction in completions)
             {
                 // completionText|listItemText|toolTip
-                Console.WriteLine($"{segment.Name}|{segment.Name}|{segment.Tooltip}");
+                Output($"{prediction.Name}|{prediction.Name}|{prediction.Tooltip ?? prediction.Name}");
             }
         }
+        catch (Exception ex)
+        {
+            Logger.Debug($"Error: {ex}");
+        }
+    }
+
+    private static void Output(string text)
+    {
+        Logger.Debug(text);
+        Console.WriteLine(text);
     }
 }
