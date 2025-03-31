@@ -1,6 +1,4 @@
-﻿using PowerShellArgumentCompleter.Commands;
-
-namespace PowerShellArgumentCompleter;
+﻿namespace PowerShellArgumentCompleter;
 
 // https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/tab-completion
 // https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/register-argumentcompleter
@@ -36,13 +34,15 @@ internal static class Program
             // var wordToComplete = args[0];
             var cursorPosition = int.Parse(args[2]);
             var commandAst = args[1].AsSpan(0, Math.Max(0, cursorPosition - 1));
+            Logger.Debug($"commandAst: {commandAst}");
 
             var completions = CommandCompleter.GetCompletions(commandAst);
+            Logger.Debug($"found {completions.Count} completions");
 
-            foreach (var prediction in completions)
+            foreach (var completion in completions)
             {
                 // completionText|listItemText|toolTip
-                Output($"{prediction.Name}|{prediction.Name}|{prediction.Tooltip ?? prediction.Name}");
+                Output($"{completion.Name}|{completion.Name}|{completion.Tooltip ?? completion.Name}");
             }
         }
         catch (Exception ex)

@@ -1,7 +1,0 @@
-﻿2025-03-29 00:02:32.3408 Enumerating. Current: update
-2025-03-29 00:02:39.0727 Searching for "update"
-2025-03-29 00:02:39.0755 Found subcommand "update"
-2025-03-29 00:02:44.7867 Searching for "update"
-2025-03-29 00:02:44.7868 Found subcommand "update"
-2025-03-29 00:02:56.4766 Searching for "update"
-2025-03-29 00:03:25.1187 Found subcommand "update"
