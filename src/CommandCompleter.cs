@@ -13,6 +13,10 @@ public static class CommandCompleter
         {
             currentCompletion = ScoopCommand.Create();
         }
+        else if (Helpers.StartsWith(commandLine, "winget"))
+        {
+            currentCompletion = WingetCommand.Create();
+        }
         else
         {
             return [];
