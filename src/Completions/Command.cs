@@ -1,6 +1,6 @@
 ﻿namespace PowerShellArgumentCompleter.Completions;
 
-public delegate DynamicArgument[] DynamicArgumentsFactory();
+public delegate IEnumerable<DynamicArgument> DynamicArgumentsFactory();
 
 public sealed class Command(string name, string? tooltip = null) : ICompletionWithChildren
 {

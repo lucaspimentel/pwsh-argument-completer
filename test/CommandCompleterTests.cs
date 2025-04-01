@@ -35,19 +35,26 @@ public class CommandCompleterTests
     public void Scoop_Update_All()
     {
         CommandCompleter.GetCompletions("scoop update")
-                        .Should().HaveCount(3)
-                        .And.ContainSingle(x => x.Name == "*")
-                        .And.ContainSingle(x => x.Name == "TODO1")
-                        .And.ContainSingle(x => x.Name == "TODO2");
+                        .Should().HaveCountGreaterThanOrEqualTo(2)
+                        .And.ContainSingle(x => x.Name == "*");
     }
 
     [Fact]
-    public void Scoop_Update_t()
+    public void Scoop_Update_z()
     {
-        CommandCompleter.GetCompletions("scoop update t")
-                        .Should().HaveCount(2)
-                        .And.ContainSingle(x => x.Name == "TODO1")
-                        .And.ContainSingle(x => x.Name == "TODO2");
+        CommandCompleter.GetCompletions("scoop update z")
+                        .Should().ContainSingle()
+                        .Which.Name.Should().Be("zoxide");
+    }
+
+    [Fact]
+    public void Scoop_Update_b()
+    {
+        CommandCompleter.GetCompletions("scoop update b")
+                        .Should().HaveCount(3)
+                        .And.ContainSingle(x => x.Name == "bat")
+                        .And.ContainSingle(x => x.Name == "bottom")
+                        .And.ContainSingle(x => x.Name == "broot");
     }
 
     [Fact]

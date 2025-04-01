@@ -29,12 +29,9 @@ public static class ScoopCommand
         };
     }
 
-    private static DynamicArgument[] GetInstalledPackages()
+    private static IEnumerable<DynamicArgument> GetInstalledPackages()
     {
-        return
-        [
-            new("TODO1"),
-            new("TODO2"),
-        ];
+        return Helpers.ExecuteCommand("scoop list")
+                      .Select(app => new DynamicArgument(app));
     }
 }

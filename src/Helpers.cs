@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using PowerShellArgumentCompleter.Completions;
 
 namespace PowerShellArgumentCompleter;
@@ -43,6 +44,34 @@ public static class Helpers
             if (StartsWith(completion.Name, search))
             {
                 result.Add(completion);
+            }
+        }
+    }
+
+    public static IEnumerable<string> ExecuteCommand(string command)
+    {
+        using var process = new Process();
+
+        process.StartInfo = new ProcessStartInfo
+        {
+            FileName = "pwsh.exe",
+            Arguments = $"-NoProfile -NonInteractive -Command \"{command}\"",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+
+        process.Start();
+        process.WaitForExit();
+
+        while (process.StandardOutput.ReadLine() is { } line)
+        {
+            if (!string.IsNullOrWhiteSpace(line) &&
+                !line.StartsWith("Installed apps:") &&
+                !line.StartsWith("\e[32;1m"))
+            {
+                var index = line.IndexOf(' ');
+                yield return index == -1 ?line : line[..index];
             }
         }
     }
