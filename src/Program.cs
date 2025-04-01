@@ -28,16 +28,11 @@ internal static class Program
     {
         try
         {
-            var allArgs = string.Join(", ", args.Select(a => $"\"{a}\""));
-            Logger.Debug($"Received args: {allArgs}");
-
             // var wordToComplete = args[0];
             var cursorPosition = int.Parse(args[2]);
             var commandAst = args[1].AsSpan(0, Math.Max(0, cursorPosition - 1));
-            Logger.Debug($"commandAst: {commandAst}");
 
             var completions = CommandCompleter.GetCompletions(commandAst);
-            Logger.Debug($"found {completions.Count} completions");
 
             foreach (var completion in completions)
             {
@@ -47,13 +42,12 @@ internal static class Program
         }
         catch (Exception ex)
         {
-            Logger.Debug($"Error: {ex}");
+            Logger.Write($"Error: {ex}");
         }
     }
 
     private static void Output(string text)
     {
-        Logger.Debug(text);
         Console.WriteLine(text);
     }
 }

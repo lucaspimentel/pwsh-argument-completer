@@ -27,17 +27,14 @@ public static class CommandCompleter
         while (argumentEnumerator.MoveNext())
         {
             currentArgument = commandLine[argumentEnumerator.Current].Trim();
-            Logger.Debug($"Searching for \"{currentArgument}\"");
 
             if (currentCompletion.FindNode(currentArgument) is { } node)
             {
-                Logger.Debug($"Found node \"{node}\"");
                 currentCompletion = node;
                 currentArgument = default;
             }
             else
             {
-                Logger.Debug($"Did not find \"{currentArgument}\"");
                 break;
             }
         }
