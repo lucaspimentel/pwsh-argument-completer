@@ -17,6 +17,10 @@ public static class CommandCompleter
         {
             currentCompletion = WingetCommand.Create();
         }
+        else if (Helpers.StartsWith(commandLine, "func"))
+        {
+            currentCompletion = AzureFuncCommand.Create();
+        }
         else
         {
             return [];
