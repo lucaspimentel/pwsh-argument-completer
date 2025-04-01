@@ -21,14 +21,14 @@ public static class Helpers
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ICompletion? ThisIfEquals(ICompletion completion, ReadOnlySpan<char> search)
     {
-        return Equals(completion.Name, search) ? completion : null;
+        return Equals(completion.CompletionText, search) ? completion : null;
     }
 
     public static ICompletion? FindEquals(IEnumerable<ICompletion> completions, ReadOnlySpan<char> search)
     {
         foreach (var completion in completions)
         {
-            if (Equals(completion.Name, search))
+            if (Equals(completion.CompletionText, search))
             {
                 return completion;
             }
@@ -41,7 +41,7 @@ public static class Helpers
     {
         foreach (var completion in completions)
         {
-            if (StartsWith(completion.Name, search))
+            if (StartsWith(completion.CompletionText, search))
             {
                 result.Add(completion);
             }

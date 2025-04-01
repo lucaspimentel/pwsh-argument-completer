@@ -1,8 +1,10 @@
 namespace PowerShellArgumentCompleter.Completions;
 
-public sealed class CommandParameter(string name, string? tooltip = null) : ICompletionWithChildren
+public sealed class CommandParameter(string name, string? displayText = null, string? tooltip = null)
+    : ICompletionWithChildren
 {
-    public string Name { get; } = name;
+    public string CompletionText { get; } = name;
+    public string? DisplayText { get; } = displayText;
     public string? Tooltip { get; } = tooltip;
     public StaticArgument[] StaticArguments { get; init; } = [];
     public DynamicArgumentsFactory? DynamicArguments { get; init; }
@@ -36,6 +38,6 @@ public sealed class CommandParameter(string name, string? tooltip = null) : ICom
 
     public override string ToString()
     {
-        return Name;
+        return CompletionText;
     }
 }

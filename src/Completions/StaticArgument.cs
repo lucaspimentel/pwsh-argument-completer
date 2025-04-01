@@ -2,11 +2,13 @@ using System.Diagnostics;
 
 namespace PowerShellArgumentCompleter.Completions;
 
-[DebuggerDisplay("{Name,nq}")]
-public sealed class StaticArgument(string name) : ICompletion
+[DebuggerDisplay("{CompletionText,nq}")]
+public sealed class StaticArgument(string name, string? displayText = null, string? tooltip = null)
+    : ICompletion
 {
-    public string Name { get; } = name;
-    public string? Tooltip { get; init; }
+    public string CompletionText { get; } = name;
+    public string? DisplayText { get; } = displayText;
+    public string? Tooltip { get; } = tooltip;
 
     public ICompletion? FindNode(ReadOnlySpan<char> wordToComplete)
     {
@@ -15,6 +17,6 @@ public sealed class StaticArgument(string name) : ICompletion
 
     public override string ToString()
     {
-        return Name;
+        return CompletionText;
     }
 }

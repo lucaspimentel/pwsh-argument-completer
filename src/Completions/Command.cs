@@ -2,9 +2,11 @@
 
 public delegate IEnumerable<DynamicArgument> DynamicArgumentsFactory();
 
-public sealed class Command(string name, string? tooltip = null) : ICompletionWithChildren
+public sealed class Command(string name, string? displayText = null, string? tooltip = null)
+    : ICompletionWithChildren
 {
-    public string Name { get; } = name;
+    public string CompletionText { get; } = name;
+    public string? DisplayText { get; } = displayText;
     public string? Tooltip { get; } = tooltip;
     public Command[] SubCommands { get; init; } = [];
     public CommandParameter[] Parameters { get; init; } = [];
@@ -41,6 +43,6 @@ public sealed class Command(string name, string? tooltip = null) : ICompletionWi
 
     public override string ToString()
     {
-        return Name;
+        return CompletionText;
     }
 }

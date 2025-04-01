@@ -1,12 +1,11 @@
-﻿using Microsoft.VisualBasic.CompilerServices;
-
-namespace PowerShellArgumentCompleter;
+﻿namespace PowerShellArgumentCompleter;
 
 // https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/tab-completion
 // https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/register-argumentcompleter
 // https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/tabexpansion2
 // https://techcommunity.microsoft.com/blog/itopstalkblog/autocomplete-in-powershell/2604524
 // https://github.com/abgox/PSCompletions/blob/main/completions/scoop/language/en-US.json
+
 /*
 $scriptblock = {
     param($wordToComplete, $commandAst, $cursorPosition)
@@ -49,7 +48,10 @@ internal static class Program
             foreach (var completion in completions)
             {
                 // completionText|listItemText|toolTip
-                Output($"{completion.Name}|{completion.Name}|{completion.Tooltip ?? completion.Name}");
+                var completionText = completion.CompletionText;
+                var listItemText = completion.DisplayText ?? completion.CompletionText;
+                var toolTip = completion.Tooltip ?? completion.CompletionText;
+                Output($"{completionText}|{listItemText}|{toolTip}");
             }
         }
         catch (Exception ex)

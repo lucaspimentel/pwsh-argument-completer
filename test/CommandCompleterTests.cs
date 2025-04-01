@@ -9,10 +9,10 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop")
                         .Should().HaveCount(4)
-                        .And.ContainSingle(x => x.Name == "install")
-                        .And.ContainSingle(x => x.Name == "update")
-                        .And.ContainSingle(x => x.Name == "status")
-                        .And.ContainSingle(x => x.Name == "checkup");
+                        .And.ContainSingle(x => x.CompletionText == "install")
+                        .And.ContainSingle(x => x.CompletionText == "update")
+                        .And.ContainSingle(x => x.CompletionText == "status")
+                        .And.ContainSingle(x => x.CompletionText == "checkup");
     }
 
     [Fact]
@@ -20,7 +20,7 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop in")
                         .Should().ContainSingle()
-                        .Which.Name.Should().Be("install");
+                        .Which.CompletionText.Should().Be("install");
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop up")
                         .Should().ContainSingle()
-                        .Which.Name.Should().Be("update");
+                        .Which.CompletionText.Should().Be("update");
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop update")
                         .Should().HaveCountGreaterThanOrEqualTo(2)
-                        .And.ContainSingle(x => x.Name == "*");
+                        .And.ContainSingle(x => x.CompletionText == "*");
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop update z")
                         .Should().ContainSingle()
-                        .Which.Name.Should().Be("zoxide");
+                        .Which.CompletionText.Should().Be("zoxide");
     }
 
     [Fact]
@@ -52,9 +52,9 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop update b")
                         .Should().HaveCount(3)
-                        .And.ContainSingle(x => x.Name == "bat")
-                        .And.ContainSingle(x => x.Name == "bottom")
-                        .And.ContainSingle(x => x.Name == "broot");
+                        .And.ContainSingle(x => x.CompletionText == "bat")
+                        .And.ContainSingle(x => x.CompletionText == "bottom")
+                        .And.ContainSingle(x => x.CompletionText == "broot");
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop st")
                         .Should().ContainSingle()
-                        .Which.Name.Should().Be("status");
+                        .Which.CompletionText.Should().Be("status");
     }
 
     [Fact]
@@ -70,6 +70,6 @@ public class CommandCompleterTests
     {
         CommandCompleter.GetCompletions("scoop ch")
                         .Should().ContainSingle()
-                        .Which.Name.Should().Be("checkup");
+                        .Which.CompletionText.Should().Be("checkup");
     }
 }
