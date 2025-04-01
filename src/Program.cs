@@ -30,7 +30,7 @@ internal static class Program
         {
             // var wordToComplete = args[0];
             var cursorPosition = int.Parse(args[2]);
-            var commandAst = args[1].AsSpan(0, Math.Max(0, cursorPosition - 1));
+            var commandAst = args[1].AsSpan(0, cursorPosition);
 
             var completions = CommandCompleter.GetCompletions(commandAst);
 
