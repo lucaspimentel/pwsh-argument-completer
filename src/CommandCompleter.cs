@@ -5,7 +5,7 @@ namespace PowerShellArgumentCompleter;
 
 public static class CommandCompleter
 {
-    public static List<ICompletion> GetCompletions(ReadOnlySpan<char> commandLine)
+    public static IEnumerable<ICompletion> GetCompletions(ReadOnlySpan<char> commandLine)
     {
         ICompletion? currentCompletion;
 
@@ -53,7 +53,7 @@ public static class CommandCompleter
 
         return currentCompletion switch
         {
-            ICompletionWithChildren cwc => cwc.GetCompletions(currentArgument),
+            ICompletionWithChildren cwc => cwc.GetCompletions(currentArgument).OrderBy(c => c.CompletionText),
             not null => [currentCompletion],
             null => []
         };
