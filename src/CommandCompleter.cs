@@ -8,33 +8,28 @@ public static class CommandCompleter
 {
     public static IEnumerable<ICompletion> GetCompletions(ReadOnlySpan<char> commandLine)
     {
-        ICompletion? currentCompletion;
+        var index = commandLine.IndexOf(' ');
 
-        if (Helpers.StartsWith(commandLine, "scoop"))
+        if (index == -1)
         {
-            currentCompletion = ScoopCommand.Create();
+            index = commandLine.Length;
         }
-        else if (Helpers.StartsWith(commandLine, "winget"))
+
+        Span<char> mainCommand = stackalloc char[index];
+        commandLine[..index].ToLowerInvariant(mainCommand);
+
+        ICompletion? currentCompletion = mainCommand switch
         {
-            currentCompletion = WingetCommand.Create();
-        }
-        else if (Helpers.StartsWith(commandLine, "code"))
-        {
-            currentCompletion = VsCodeCommand.Create();
-        }
-        else if (Helpers.StartsWith(commandLine, "az"))
-        {
-            currentCompletion = AzCommand.Create();
-        }
-        else if (Helpers.StartsWith(commandLine, "azd"))
-        {
-            currentCompletion = AzdCommand.Create();
-        }
-        else if (Helpers.StartsWith(commandLine, "func"))
-        {
-            currentCompletion = FuncCommand.Create();
-        }
-        else
+            "scoop" => ScoopCommand.Create(),
+            "winget" => WingetCommand.Create(),
+            "code" => VsCodeCommand.Create(),
+            "azd" => AzdCommand.Create(),
+            "az" => AzCommand.Create(),
+            "func" => FuncCommand.Create(),
+            _ => null
+        };
+
+        if (currentCompletion is null)
         {
             return [];
         }
