@@ -3,11 +3,10 @@ using System.Diagnostics;
 namespace PowerShellArgumentCompleter.Completions;
 
 [DebuggerDisplay("{CompletionText,nq}")]
-public sealed class DynamicArgument(string name, string? tooltip = null, string? displayText = null)
+public sealed class DynamicArgument(string completionText, string? tooltip = null)
     : ICompletion
 {
-    public string CompletionText { get; } = name;
-    public string? DisplayText { get; } = displayText;
+    public string CompletionText { get; } = completionText;
     public string? Tooltip { get; } = tooltip;
 
     public ICompletion? FindNode(ReadOnlySpan<char> wordToComplete)

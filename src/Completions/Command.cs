@@ -2,11 +2,10 @@
 
 public delegate IEnumerable<DynamicArgument> DynamicArgumentsFactory();
 
-public sealed class Command(string name, string? displayText = null, string? tooltip = null)
+public sealed class Command(string completionText, string? tooltip = null)
     : ICompletionWithChildren
 {
-    public string CompletionText { get; } = name;
-    public string? DisplayText { get; } = displayText;
+    public string CompletionText { get; } = completionText;
     public string? Tooltip { get; } = tooltip;
     public Command[] SubCommands { get; init; } = [];
     public CommandParameter[] Parameters { get; init; } = [];

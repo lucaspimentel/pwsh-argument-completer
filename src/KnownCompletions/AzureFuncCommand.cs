@@ -86,10 +86,12 @@ public static class AzureFuncCommand
                 {
                     Parameters =
                     [
-                        new("--port", "--port (-p)", "Local port to listen on. Default: 7071"),
+                        new("-p", "Local port to listen on. Default: 7071"),
+                        new("--port", "Local port to listen on. Default: 7071"),
                         new("--cors", "A comma separated list of CORS origins with no spaces."),
                         new("--cors-credentials", "Allow cross-origin authenticated requests."),
-                        new("--timeout", "--timeout (-t)", "Timeout for the functions host to start in seconds. Default: 20 seconds."),
+                        new("--t", "Timeout for the functions host to start in seconds. Default: 20 seconds."),
+                        new("--timeout", "Timeout for the functions host to start in seconds. Default: 20 seconds."),
                         new("--useHttps", "Bind to https://localhost:{port} rather than http://localhost:{port}."),
                         new("--cert", "The path to a pfx file that contains a private key."),
                         new("--password", "Either the password, or a file that contains the password for the pfx file."),
@@ -108,11 +110,16 @@ public static class AzureFuncCommand
                 {
                     Parameters =
                     [
-                        new("--language", "--language (-l)", "Template programming language, such as C#, F#, JavaScript, etc."),
-                        new("--template", "--template (-t)", "Template name"),
-                        new("--name", "--name (-n)", "Function name"),
-                        new("--file", "--file (-f)", "File Name"),
-                        new("--authlevel", "--authlevel (-a)", "Authorization level is applicable to templates that use Http trigger."),
+                        new("-l", "Template programming language, such as C#, F#, JavaScript, etc."),
+                        new("--language", "Template programming language, such as C#, F#, JavaScript, etc."),
+                        new("-t", "Template name"),
+                        new("--template", "Template name"),
+                        new("-n", "Function name"),
+                        new("--name", "Function name"),
+                        new("-f", "File Name"),
+                        new("--file", "File Name"),
+                        new("-a", "Authorization level is applicable to templates that use Http trigger."),
+                        new("--authlevel", "Authorization level is applicable to templates that use Http trigger."),
                         new("--csx", "Use old style csx dotnet functions.")
                     ]
                 },
@@ -129,7 +136,8 @@ public static class AzureFuncCommand
                         new("--language", "Initialize a language specific project."),
                         new("--target-framework", "Initialize a project with the given target framework moniker."),
                         new("--managed-dependencies", "Installs managed dependencies."),
-                        new("--model", "--model (-m)", "Selects the programming model for the function app."),
+                        new("-m", "Selects the programming model for the function app."),
+                        new("--model", "Selects the programming model for the function app."),
                         new("--skip-npm-install", "Skips the npm installation phase."),
                         new("--no-docs", "Do not create getting started documentation file.")
                     ]

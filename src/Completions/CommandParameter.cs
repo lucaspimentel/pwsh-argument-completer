@@ -1,10 +1,9 @@
 namespace PowerShellArgumentCompleter.Completions;
 
-public sealed class CommandParameter(string name, string? displayText = null, string? tooltip = null)
+public sealed class CommandParameter(string completionText, string? tooltip = null)
     : ICompletionWithChildren
 {
-    public string CompletionText { get; } = name;
-    public string? DisplayText { get; } = displayText;
+    public string CompletionText { get; } = completionText;
     public string? Tooltip { get; } = tooltip;
     public StaticArgument[] StaticArguments { get; init; } = [];
     public DynamicArgumentsFactory? DynamicArguments { get; init; }

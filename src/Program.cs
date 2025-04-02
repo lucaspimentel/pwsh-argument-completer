@@ -47,11 +47,8 @@ internal static class Program
 
             foreach (var completion in completions)
             {
-                // completionText|listItemText|toolTip
-                var completionText = completion.CompletionText;
-                var listItemText = completion.DisplayText ?? completion.CompletionText;
-                var toolTip = completion.Tooltip ?? completion.CompletionText;
-                Output($"{completionText}|{listItemText}|{toolTip}");
+                // completionText|toolTip
+                Output($"{completion.CompletionText}|{completion.Tooltip ?? completion.CompletionText}");
             }
         }
         catch (Exception ex)

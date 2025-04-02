@@ -3,7 +3,6 @@ namespace PowerShellArgumentCompleter.Completions;
 public interface ICompletion
 {
     string CompletionText { get; }
-    string? DisplayText { get; }
     string? Tooltip { get; }
     ICompletion? FindNode(ReadOnlySpan<char> wordToComplete);
 }
