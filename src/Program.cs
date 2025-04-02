@@ -36,12 +36,14 @@ internal static class Program
             }
 
             // var wordToComplete = args[0];
+            var commandAst = args[1];
             var cursorPosition = int.Parse(args[2]);
-            var commandAst = cursorPosition >= 0 && cursorPosition < args[1].Length ?
-                args[1].AsSpan(0, cursorPosition) :
-                args[1].AsSpan();
 
-            var completions = CommandCompleter.GetCompletions(commandAst);
+            var truncatedCommandAst = cursorPosition >= 0 && cursorPosition < commandAst.Length ?
+                commandAst.AsSpan(0, cursorPosition) :
+                commandAst.AsSpan();
+
+            var completions = CommandCompleter.GetCompletions(truncatedCommandAst);
 
             foreach (var completion in completions)
             {
