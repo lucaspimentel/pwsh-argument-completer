@@ -63,9 +63,9 @@
 
 using PowerShellArgumentCompleter.Completions;
 
-namespace PowerShellArgumentCompleter.KnownCompletions;
+namespace PowerShellArgumentCompleter.KnownCompletions.Azure;
 
-public static class AzureFuncCommand
+public static class FuncCommand
 {
     public static Command Create()
     {

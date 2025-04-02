@@ -1,5 +1,6 @@
 ﻿using PowerShellArgumentCompleter.Completions;
 using PowerShellArgumentCompleter.KnownCompletions;
+using PowerShellArgumentCompleter.KnownCompletions.Azure;
 
 namespace PowerShellArgumentCompleter;
 
@@ -23,7 +24,7 @@ public static class CommandCompleter
         }
         else if (Helpers.StartsWith(commandLine, "func"))
         {
-            currentCompletion = AzureFuncCommand.Create();
+            currentCompletion = FuncCommand.Create();
         }
         else
         {
