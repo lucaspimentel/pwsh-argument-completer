@@ -66,13 +66,7 @@ public static class Helpers
 
         while (process.StandardOutput.ReadLine() is { } line)
         {
-            if (!string.IsNullOrWhiteSpace(line) &&
-                !line.StartsWith("Installed apps:") &&
-                !line.StartsWith("\e[32;1m"))
-            {
-                var index = line.IndexOf(' ');
-                yield return index == -1 ?line : line[..index];
-            }
+            yield return line;
         }
     }
 }
