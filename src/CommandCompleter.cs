@@ -22,6 +22,14 @@ public static class CommandCompleter
         {
             currentCompletion = VsCodeCommand.Create();
         }
+        else if (Helpers.StartsWith(commandLine, "az"))
+        {
+            currentCompletion = AzCommand.Create();
+        }
+        else if (Helpers.StartsWith(commandLine, "azd"))
+        {
+            currentCompletion = AzdCommand.Create();
+        }
         else if (Helpers.StartsWith(commandLine, "func"))
         {
             currentCompletion = FuncCommand.Create();
