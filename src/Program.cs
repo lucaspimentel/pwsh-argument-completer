@@ -7,10 +7,10 @@
 // https://github.com/abgox/PSCompletions/blob/main/completions/scoop/language/en-US.json
 
 /*
-$scriptblock = {
+Register-ArgumentCompleter -Native -CommandName $command -ScriptBlock {
     param($wordToComplete, $commandAst, $cursorPosition)
 
-    dotnet complete --position $cursorPosition $commandAst.ToString() | ForEach-Object {
+    pwsh-argument-completer $wordToComplete, $commandAst, $cursorPosition | ForEach-Object {
         [System.Management.Automation.CompletionResult]::new(
             $_,               # completionText
             $_,               # listItemText
@@ -19,8 +19,6 @@ $scriptblock = {
         )
     }
 }
-
-Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock $scriptblock
 */
 
 internal static class Program
