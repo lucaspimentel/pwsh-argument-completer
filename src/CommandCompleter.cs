@@ -8,15 +8,16 @@ public static class CommandCompleter
 {
     public static IEnumerable<ICompletion> GetCompletions(ReadOnlySpan<char> commandLine)
     {
-        var index = commandLine.IndexOf(' ');
+        var length = GetCommandLength(commandLine);
 
-        if (index == -1)
+        if (length < 0 || length > commandLine.Length)
         {
-            index = commandLine.Length;
+            Logger.Write($"commandLine: {commandLine}, length: {length} is invalid");
+            return [];
         }
 
-        Span<char> mainCommand = stackalloc char[index];
-        commandLine[..index].ToLowerInvariant(mainCommand);
+        Span<char> mainCommand = stackalloc char[length];
+        commandLine[..length].ToLowerInvariant(mainCommand);
 
         ICompletion? currentCompletion = mainCommand switch
         {
@@ -32,6 +33,7 @@ public static class CommandCompleter
 
         if (currentCompletion is null)
         {
+            Logger.Write($"{mainCommand} is not a known command");
             return [];
         }
 
@@ -62,5 +64,24 @@ public static class CommandCompleter
             not null => [currentCompletion],
             null => []
         };
+    }
+
+    private static int GetCommandLength(ReadOnlySpan<char> commandLine)
+    {
+        var exeIndex = commandLine.IndexOf(".exe");
+
+        if (exeIndex > 0)
+        {
+            return exeIndex;
+        }
+
+        var spaceIndex = commandLine.IndexOf(' ');
+
+        if (spaceIndex > 0)
+        {
+            return spaceIndex;
+        }
+
+        return commandLine.Length;
     }
 }
