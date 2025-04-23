@@ -21,8 +21,9 @@ public static class CommandCompleter
         ICompletion? currentCompletion = mainCommand switch
         {
             "scoop" => ScoopCommand.Create(),
-            "winget" => WingetCommand.Create(),
             "code" => VsCodeCommand.Create(),
+            "winget" => WingetCommand.Create(),
+            "chezmoi" => ChezmoiCommand.Create(),
             "azd" => AzdCommand.Create(),
             "az" => AzCommand.Create(),
             "func" => FuncCommand.Create(),
