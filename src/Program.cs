@@ -23,12 +23,17 @@ Register-ArgumentCompleter -Native -CommandName $command -ScriptBlock {
 
 internal static class Program
 {
+    public static readonly bool Debug = Environment.GetEnvironmentVariable("DEBUG") == "1";
+
     public static void Main(string[] args)
     {
         try
         {
-            var allArgs = string.Join(" ", args.Select(a => $"\"{a}\""));
-            Logger.Write($"Received args: {allArgs}");
+            if (Debug)
+            {
+                var allArgs = string.Join(" ", args.Select(a => $"\"{a}\""));
+                Logger.Write($"Received args: {allArgs}");
+            }
 
             if (args.Length != 3)
             {
