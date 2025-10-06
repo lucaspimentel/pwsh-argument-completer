@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a PowerShell argument completer written in C# that provides tab completion for various CLI tools (scoop, winget, az, azd, func, chezmoi, VS Code). It's compiled to a native executable using NativeAOT for fast startup times, making it suitable as a PowerShell argument completer.
+This is a PowerShell argument completer written in C# that provides tab completion for various CLI tools (scoop, winget, az, azd, func, chezmoi, git, gh, VS Code). It's compiled to a native executable using NativeAOT for fast startup times, making it suitable as a PowerShell argument completer.
 
 The tool integrates with PowerShell via `Register-ArgumentCompleter -Native` and receives three arguments: `$wordToComplete`, `$commandAst`, and `$cursorPosition`.
 
@@ -137,6 +137,19 @@ CommandCompleter.GetCompletions("scoop up")
 - The `.exe` suffix is stripped when detecting the command name
 - Debug logs go to `Logger.Write()` which outputs to a log file when `DEBUG=1` is set
 
+## Supported Commands
+
+Currently implemented completions:
+- **scoop** - Package manager for Windows
+- **winget** - Windows Package Manager
+- **az** - Azure CLI
+- **azd** - Azure Developer CLI (✅ already supported)
+- **func** - Azure Functions Core Tools (✅ already supported)
+- **chezmoi** - Dotfiles manager
+- **git** - Version control
+- **gh** - GitHub CLI
+- **code** - VS Code
+
 ## Future Command Candidates
 
 Based on PowerShell history analysis, these commands are recommended for future implementation:
@@ -151,26 +164,24 @@ Based on PowerShell history analysis, these commands are recommended for future 
    - Subcommands: `build`, `run`, `login`, `buildx`, `image`
    - Common flags: `--file`, `--tag`, `--progress`, `--no-cache`, `--rm`, `--name`, `-e`, `-p`
 
-3. **gh** (71+ uses) - GitHub CLI
-   - Subcommands: `repo clone`, `auth login`, `pr` (view, diff, list, checks)
-
-4. **python** (40+ uses)
+3. **python** (40+ uses)
    - Modules: `-m venv`, `-m pytest`
    - Common flags: `-n`, `-S`, `--version`
 
 ### Medium Priority
 
-5. **dd-trace** (102+ uses) - Datadog tracer tool
+4. **dd-trace** (102+ uses) - Datadog tracer tool
    - Subcommands: `run`
    - Flags: `--help`, `--tracer-home`
 
-6. **ssh** (35+ uses) - Could complete hostnames from SSH config
+5. **ssh** (35+ uses) - Could complete hostnames from SSH config
 
 ### Lower Priority (Niche/Less Complex)
 
+- **tre** (254+ uses) - Tree viewer with improved output (TODO: add support)
+- **lsd** (237+ uses) - LSDeluxe, modern `ls` replacement (TODO: add support)
+- **gt** (126+ uses) - Graphite CLI for stacked diffs (TODO: add support)
+- **dust** (120+ uses) - Modern `du` replacement (TODO: add support)
 - **lazygit** (76+ uses) - No arguments typically
-- **gt** (126+ uses) - Unknown tool, would need investigation
 - **xh** (132+ uses) - HTTP client, could complete HTTP methods
-- **tre** (254+ uses) - Tree viewer, simpler arg structure
-- **dust** (120+ uses) - Disk usage tool
 - **fzf** (48+ uses) - Interactive, less benefit from completion
