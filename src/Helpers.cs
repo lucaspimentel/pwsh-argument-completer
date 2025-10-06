@@ -62,11 +62,12 @@ public static class Helpers
         };
 
         process.Start();
-        process.WaitForExit();
 
         while (process.StandardOutput.ReadLine() is { } line)
         {
             yield return line;
         }
+
+        process.WaitForExit();
     }
 }

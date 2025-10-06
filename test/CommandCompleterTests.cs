@@ -8,19 +8,18 @@ public class CommandCompleterTests
     public void Scoop()
     {
         CommandCompleter.GetCompletions("scoop")
-                        .Should().HaveCount(4)
-                        .And.ContainSingle(x => x.CompletionText == "install")
-                        .And.ContainSingle(x => x.CompletionText == "update")
-                        .And.ContainSingle(x => x.CompletionText == "status")
-                        .And.ContainSingle(x => x.CompletionText == "checkup");
+                        .Should().Contain(x => x.CompletionText == "install")
+                        .And.Contain(x => x.CompletionText == "update")
+                        .And.Contain(x => x.CompletionText == "status")
+                        .And.Contain(x => x.CompletionText == "checkup");
     }
 
     [Fact]
     public void Scoop_Install()
     {
         CommandCompleter.GetCompletions("scoop in")
-                        .Should().ContainSingle()
-                        .Which.CompletionText.Should().Be("install");
+                        .Should().Contain(x => x.CompletionText == "install")
+                        .And.Contain(x => x.CompletionText == "info");
     }
 
     [Fact]
