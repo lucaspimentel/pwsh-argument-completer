@@ -27,6 +27,7 @@ public static class CommandCompleter
             "chezmoi" => ChezmoiCommand.Create(),
             "git" => GitCommand.Create(),
             "gh" => GhCommand.Create(),
+            "tre" => TreCommand.Create(),
             "azd" => AzdCommand.Create(),
             "az" => AzCommand.Create(),
             "func" => FuncCommand.Create(),

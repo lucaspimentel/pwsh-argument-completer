@@ -233,4 +233,33 @@ public class CommandCompleterTests
                         .Should().ContainSingle()
                         .Which.CompletionText.Should().Be("diff");
     }
+
+    [Fact]
+    public void Tre()
+    {
+        CommandCompleter.GetCompletions("tre")
+                        .Should().Contain(x => x.CompletionText == "-a")
+                        .And.Contain(x => x.CompletionText == "--all")
+                        .And.Contain(x => x.CompletionText == "-d")
+                        .And.Contain(x => x.CompletionText == "--directories")
+                        .And.Contain(x => x.CompletionText == "-j")
+                        .And.Contain(x => x.CompletionText == "--json");
+    }
+
+    [Fact]
+    public void Tre_All()
+    {
+        CommandCompleter.GetCompletions("tre --a")
+                        .Should().ContainSingle()
+                        .Which.CompletionText.Should().Be("--all");
+    }
+
+    [Fact]
+    public void Tre_Color()
+    {
+        CommandCompleter.GetCompletions("tre --color")
+                        .Should().Contain(x => x.CompletionText == "automatic")
+                        .And.Contain(x => x.CompletionText == "always")
+                        .And.Contain(x => x.CompletionText == "never");
+    }
 }
