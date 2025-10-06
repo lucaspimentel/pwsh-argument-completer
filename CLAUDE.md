@@ -143,12 +143,13 @@ Currently implemented completions:
 - **scoop** - Package manager for Windows
 - **winget** - Windows Package Manager
 - **az** - Azure CLI
-- **azd** - Azure Developer CLI (✅ already supported)
-- **func** - Azure Functions Core Tools (✅ already supported)
+- **azd** - Azure Developer CLI
+- **func** - Azure Functions Core Tools
 - **chezmoi** - Dotfiles manager
 - **git** - Version control
 - **gh** - GitHub CLI
 - **code** - VS Code
+- **tre** - Tree viewer with improved output
 
 ## Future Command Candidates
 
@@ -178,7 +179,6 @@ Based on PowerShell history analysis, these commands are recommended for future 
 
 ### Lower Priority (Niche/Less Complex)
 
-- **tre** (254+ uses) - Tree viewer with improved output (TODO: add support)
 - **lsd** (237+ uses) - LSDeluxe, modern `ls` replacement (TODO: add support)
 - **gt** (126+ uses) - Graphite CLI for stacked diffs (TODO: add support)
 - **dust** (120+ uses) - Modern `du` replacement (TODO: add support)
