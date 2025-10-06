@@ -72,4 +72,73 @@ public class CommandCompleterTests
                         .Should().ContainSingle()
                         .Which.CompletionText.Should().Be("checkup");
     }
+
+    [Fact]
+    public void Git()
+    {
+        CommandCompleter.GetCompletions("git")
+                        .Should().Contain(x => x.CompletionText == "add")
+                        .And.Contain(x => x.CompletionText == "commit")
+                        .And.Contain(x => x.CompletionText == "push")
+                        .And.Contain(x => x.CompletionText == "pull")
+                        .And.Contain(x => x.CompletionText == "status")
+                        .And.Contain(x => x.CompletionText == "branch")
+                        .And.Contain(x => x.CompletionText == "checkout");
+    }
+
+    [Fact]
+    public void Git_Add()
+    {
+        CommandCompleter.GetCompletions("git ad")
+                        .Should().ContainSingle()
+                        .Which.CompletionText.Should().Be("add");
+    }
+
+    [Fact]
+    public void Git_Add_Parameters()
+    {
+        CommandCompleter.GetCompletions("git add")
+                        .Should().Contain(x => x.CompletionText == "-A")
+                        .And.Contain(x => x.CompletionText == "--all")
+                        .And.Contain(x => x.CompletionText == "-p")
+                        .And.Contain(x => x.CompletionText == ".");
+    }
+
+    [Fact]
+    public void Git_Commit()
+    {
+        CommandCompleter.GetCompletions("git com")
+                        .Should().ContainSingle()
+                        .Which.CompletionText.Should().Be("commit");
+    }
+
+    [Fact]
+    public void Git_Commit_Parameters()
+    {
+        CommandCompleter.GetCompletions("git commit")
+                        .Should().Contain(x => x.CompletionText == "-a")
+                        .And.Contain(x => x.CompletionText == "--amend")
+                        .And.Contain(x => x.CompletionText == "-m")
+                        .And.Contain(x => x.CompletionText == "--message");
+    }
+
+    [Fact]
+    public void Git_Stash()
+    {
+        CommandCompleter.GetCompletions("git st")
+                        .Should().HaveCount(2)
+                        .And.Contain(x => x.CompletionText == "stash")
+                        .And.Contain(x => x.CompletionText == "status");
+    }
+
+    [Fact]
+    public void Git_Stash_Subcommands()
+    {
+        CommandCompleter.GetCompletions("git stash")
+                        .Should().Contain(x => x.CompletionText == "push")
+                        .And.Contain(x => x.CompletionText == "pop")
+                        .And.Contain(x => x.CompletionText == "apply")
+                        .And.Contain(x => x.CompletionText == "list")
+                        .And.Contain(x => x.CompletionText == "clear");
+    }
 }
