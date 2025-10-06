@@ -136,3 +136,41 @@ CommandCompleter.GetCompletions("scoop up")
 - Commands are matched by exact name, not prefix (handled by `FindNode()`)
 - The `.exe` suffix is stripped when detecting the command name
 - Debug logs go to `Logger.Write()` which outputs to a log file when `DEBUG=1` is set
+
+## Future Command Candidates
+
+Based on PowerShell history analysis, these commands are recommended for future implementation:
+
+### High Priority
+
+1. **dotnet** (1,530+ uses) - Most used command
+   - Subcommands: `build`, `publish`, `restore`, `run`, `tool`, `nuget`, `new`, `--info`, `--list-sdks`, `--list-runtimes`
+   - Parameters: `-c`, `-tl`, `-f`, `--help`, `--global`
+
+2. **docker** (213+ uses)
+   - Subcommands: `build`, `run`, `login`, `buildx`, `image`
+   - Common flags: `--file`, `--tag`, `--progress`, `--no-cache`, `--rm`, `--name`, `-e`, `-p`
+
+3. **gh** (71+ uses) - GitHub CLI
+   - Subcommands: `repo clone`, `auth login`, `pr` (view, diff, list, checks)
+
+4. **python** (40+ uses)
+   - Modules: `-m venv`, `-m pytest`
+   - Common flags: `-n`, `-S`, `--version`
+
+### Medium Priority
+
+5. **dd-trace** (102+ uses) - Datadog tracer tool
+   - Subcommands: `run`
+   - Flags: `--help`, `--tracer-home`
+
+6. **ssh** (35+ uses) - Could complete hostnames from SSH config
+
+### Lower Priority (Niche/Less Complex)
+
+- **lazygit** (76+ uses) - No arguments typically
+- **gt** (126+ uses) - Unknown tool, would need investigation
+- **xh** (132+ uses) - HTTP client, could complete HTTP methods
+- **tre** (254+ uses) - Tree viewer, simpler arg structure
+- **dust** (120+ uses) - Disk usage tool
+- **fzf** (48+ uses) - Interactive, less benefit from completion
