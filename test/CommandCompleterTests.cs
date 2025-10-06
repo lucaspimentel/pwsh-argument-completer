@@ -141,4 +141,96 @@ public class CommandCompleterTests
                         .And.Contain(x => x.CompletionText == "list")
                         .And.Contain(x => x.CompletionText == "clear");
     }
+
+    [Fact]
+    public void Gh()
+    {
+        CommandCompleter.GetCompletions("gh")
+                        .Should().Contain(x => x.CompletionText == "auth")
+                        .And.Contain(x => x.CompletionText == "repo")
+                        .And.Contain(x => x.CompletionText == "pr")
+                        .And.Contain(x => x.CompletionText == "issue")
+                        .And.Contain(x => x.CompletionText == "release");
+    }
+
+    [Fact]
+    public void Gh_Repo()
+    {
+        CommandCompleter.GetCompletions("gh repo")
+                        .Should().Contain(x => x.CompletionText == "clone")
+                        .And.Contain(x => x.CompletionText == "create")
+                        .And.Contain(x => x.CompletionText == "list");
+    }
+
+    [Fact]
+    public void Gh_Repo_Clone()
+    {
+        CommandCompleter.GetCompletions("gh repo cl")
+                        .Should().ContainSingle()
+                        .Which.CompletionText.Should().Be("clone");
+    }
+
+    [Fact]
+    public void Gh_Auth()
+    {
+        CommandCompleter.GetCompletions("gh auth")
+                        .Should().Contain(x => x.CompletionText == "login")
+                        .And.Contain(x => x.CompletionText == "logout")
+                        .And.Contain(x => x.CompletionText == "status");
+    }
+
+    [Fact]
+    public void Gh_Auth_Login()
+    {
+        CommandCompleter.GetCompletions("gh auth login")
+                        .Should().Contain(x => x.CompletionText == "-w")
+                        .And.Contain(x => x.CompletionText == "--web")
+                        .And.Contain(x => x.CompletionText == "-h");
+    }
+
+    [Fact]
+    public void Gh_Pr()
+    {
+        CommandCompleter.GetCompletions("gh pr")
+                        .Should().Contain(x => x.CompletionText == "create")
+                        .And.Contain(x => x.CompletionText == "list")
+                        .And.Contain(x => x.CompletionText == "view")
+                        .And.Contain(x => x.CompletionText == "checkout")
+                        .And.Contain(x => x.CompletionText == "checks")
+                        .And.Contain(x => x.CompletionText == "diff");
+    }
+
+    [Fact]
+    public void Gh_Pr_View()
+    {
+        CommandCompleter.GetCompletions("gh pr v")
+                        .Should().ContainSingle()
+                        .Which.CompletionText.Should().Be("view");
+    }
+
+    [Fact]
+    public void Gh_Pr_View_Parameters()
+    {
+        CommandCompleter.GetCompletions("gh pr view")
+                        .Should().Contain(x => x.CompletionText == "-w")
+                        .And.Contain(x => x.CompletionText == "--web")
+                        .And.Contain(x => x.CompletionText == "-c")
+                        .And.Contain(x => x.CompletionText == "--comments");
+    }
+
+    [Fact]
+    public void Gh_Pr_Checks()
+    {
+        CommandCompleter.GetCompletions("gh pr checks")
+                        .Should().Contain(x => x.CompletionText == "-w")
+                        .And.Contain(x => x.CompletionText == "--web");
+    }
+
+    [Fact]
+    public void Gh_Pr_Diff()
+    {
+        CommandCompleter.GetCompletions("gh pr di")
+                        .Should().ContainSingle()
+                        .Which.CompletionText.Should().Be("diff");
+    }
 }
