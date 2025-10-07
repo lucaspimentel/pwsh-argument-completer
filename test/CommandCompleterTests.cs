@@ -313,4 +313,38 @@ public class CommandCompleterTests
             .And.Contain(x => x.CompletionText == "attributes")
             .And.Contain(x => x.CompletionText == "disable");
     }
+
+    [Fact]
+    public void Dust()
+    {
+        CommandCompleter.GetCompletions("dust")
+            .Should().Contain(x => x.CompletionText == "-d")
+            .And.Contain(x => x.CompletionText == "--depth")
+            .And.Contain(x => x.CompletionText == "-n")
+            .And.Contain(x => x.CompletionText == "--number-of-lines")
+            .And.Contain(x => x.CompletionText == "--help");
+    }
+
+    [Fact]
+    public void Dust_OutputFormat()
+    {
+        CommandCompleter.GetCompletions("dust --output-format")
+            .Should().Contain(x => x.CompletionText == "si")
+            .And.Contain(x => x.CompletionText == "b")
+            .And.Contain(x => x.CompletionText == "k")
+            .And.Contain(x => x.CompletionText == "m")
+            .And.Contain(x => x.CompletionText == "g")
+            .And.Contain(x => x.CompletionText == "kb")
+            .And.Contain(x => x.CompletionText == "mb")
+            .And.Contain(x => x.CompletionText == "gb");
+    }
+
+    [Fact]
+    public void Dust_Filetime()
+    {
+        CommandCompleter.GetCompletions("dust --filetime")
+            .Should().Contain(x => x.CompletionText == "a")
+            .And.Contain(x => x.CompletionText == "c")
+            .And.Contain(x => x.CompletionText == "m");
+    }
 }
