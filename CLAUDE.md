@@ -150,6 +150,7 @@ Currently implemented completions:
 - **gh** - GitHub CLI
 - **code** - VS Code
 - **tre** - Tree viewer with improved output
+- **lsd** - LSDeluxe, modern `ls` replacement with colors and icons
 
 ## Future Command Candidates
 
@@ -179,9 +180,9 @@ Based on PowerShell history analysis, these commands are recommended for future 
 
 ### Lower Priority (Niche/Less Complex)
 
-- **lsd** (237+ uses) - LSDeluxe, modern `ls` replacement (TODO: add support)
 - **gt** (126+ uses) - Graphite CLI for stacked diffs (TODO: add support)
 - **dust** (120+ uses) - Modern `du` replacement (TODO: add support)
 - **lazygit** (76+ uses) - No arguments typically
 - **xh** (132+ uses) - HTTP client, could complete HTTP methods
 - **fzf** (48+ uses) - Interactive, less benefit from completion
+- when adding support for a new command-line tool, also add it to C:\Users\Lucas.Pimentel\.config\powershell\Microsoft.PowerShell_profile.ps1

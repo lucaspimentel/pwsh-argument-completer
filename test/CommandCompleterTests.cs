@@ -261,4 +261,56 @@ public class CommandCompleterTests
                         .And.Contain(x => x.CompletionText == "always")
                         .And.Contain(x => x.CompletionText == "never");
     }
+
+    [Fact]
+    public void Lsd()
+    {
+        CommandCompleter.GetCompletions("lsd")
+            .Should().Contain(x => x.CompletionText == "-a")
+            .And.Contain(x => x.CompletionText == "--all")
+            .And.Contain(x => x.CompletionText == "-l")
+            .And.Contain(x => x.CompletionText == "--long")
+            .And.Contain(x => x.CompletionText == "--tree")
+            .And.Contain(x => x.CompletionText == "--help");
+    }
+
+    [Fact]
+    public void Lsd_Color()
+    {
+        CommandCompleter.GetCompletions("lsd --color")
+            .Should().Contain(x => x.CompletionText == "always")
+            .And.Contain(x => x.CompletionText == "auto")
+            .And.Contain(x => x.CompletionText == "never");
+    }
+
+    [Fact]
+    public void Lsd_Icon()
+    {
+        CommandCompleter.GetCompletions("lsd --icon")
+            .Should().Contain(x => x.CompletionText == "always")
+            .And.Contain(x => x.CompletionText == "auto")
+            .And.Contain(x => x.CompletionText == "never");
+    }
+
+    [Fact]
+    public void Lsd_Sort()
+    {
+        CommandCompleter.GetCompletions("lsd --sort")
+            .Should().Contain(x => x.CompletionText == "size")
+            .And.Contain(x => x.CompletionText == "time")
+            .And.Contain(x => x.CompletionText == "version")
+            .And.Contain(x => x.CompletionText == "extension")
+            .And.Contain(x => x.CompletionText == "git")
+            .And.Contain(x => x.CompletionText == "none");
+    }
+
+    [Fact]
+    public void Lsd_Permission()
+    {
+        CommandCompleter.GetCompletions("lsd --permission")
+            .Should().Contain(x => x.CompletionText == "rwx")
+            .And.Contain(x => x.CompletionText == "octal")
+            .And.Contain(x => x.CompletionText == "attributes")
+            .And.Contain(x => x.CompletionText == "disable");
+    }
 }

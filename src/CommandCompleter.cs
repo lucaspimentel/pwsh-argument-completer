@@ -28,6 +28,7 @@ public static class CommandCompleter
             "git" => GitCommand.Create(),
             "gh" => GhCommand.Create(),
             "tre" => TreCommand.Create(),
+            "lsd" => LsdCommand.Create(),
             "azd" => AzdCommand.Create(),
             "az" => AzCommand.Create(),
             "func" => FuncCommand.Create(),
