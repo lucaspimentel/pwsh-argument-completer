@@ -122,6 +122,15 @@ public class CommandCompleterTests
     }
 
     [Fact]
+    public void Git_Commit_MultipleParameters()
+    {
+        CommandCompleter.GetCompletions("git commit -a -")
+                        .Should().Contain(x => x.CompletionText == "-m")
+                        .And.Contain(x => x.CompletionText == "--message")
+                        .And.Contain(x => x.CompletionText == "--amend");
+    }
+
+    [Fact]
     public void Git_Stash()
     {
         CommandCompleter.GetCompletions("git st")
@@ -260,6 +269,15 @@ public class CommandCompleterTests
                         .Should().Contain(x => x.CompletionText == "automatic")
                         .And.Contain(x => x.CompletionText == "always")
                         .And.Contain(x => x.CompletionText == "never");
+    }
+
+    [Fact]
+    public void Tre_MultipleParameters()
+    {
+        CommandCompleter.GetCompletions("tre --all --")
+                        .Should().Contain(x => x.CompletionText == "--directories")
+                        .And.Contain(x => x.CompletionText == "--json")
+                        .And.Contain(x => x.CompletionText == "--limit");
     }
 
     [Fact]

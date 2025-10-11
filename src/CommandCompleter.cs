@@ -43,6 +43,7 @@ public static class CommandCompleter
         }
 
         ReadOnlySpan<char> currentArgument = default;
+        ICompletion? parentCommand = currentCompletion;
 
         // Split the command line and skip the first argument
         var argumentEnumerator = commandLine.Split(' ');
@@ -54,8 +55,25 @@ public static class CommandCompleter
 
             if (currentCompletion.FindNode(currentArgument) is { } node)
             {
-                currentCompletion = node;
-                currentArgument = default;
+                // If we found a parameter that doesn't have arguments, stay at the parent level
+                // so we can continue to suggest other parameters
+                if (node is CommandParameter { StaticArguments.Length: 0, DynamicArguments: null })
+                {
+                    // Track that we found the parameter, but keep currentCompletion at parent level
+                    currentArgument = default;
+                }
+                else
+                {
+                    // For subcommands or parameters with arguments, navigate into them
+                    currentCompletion = node;
+                    currentArgument = default;
+
+                    // Update parent reference when navigating to a new command level
+                    if (node is Command)
+                    {
+                        parentCommand = node;
+                    }
+                }
             }
             else
             {
