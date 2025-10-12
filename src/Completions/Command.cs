@@ -30,14 +30,18 @@ public sealed class Command(string completionText, string? tooltip = null)
         var results = new List<ICompletion>();
 
         Helpers.AddWhereStartsWith(SubCommands, results, wordToComplete);
-        Helpers.AddWhereStartsWith(Parameters, results, wordToComplete);
 
-        // Add alias completions for parameters that have aliases
+        // Add parameters that match the search, including by alias
         foreach (var param in Parameters)
         {
-            if (param.Alias is not null && Helpers.StartsWith(param.Alias, wordToComplete))
+            if (Helpers.StartsWith(param.CompletionText, wordToComplete))
             {
-                results.Add(new AliasCompletion(param.Alias, param));
+                results.Add(param);
+            }
+            else if (param.Alias is not null && Helpers.StartsWith(param.Alias, wordToComplete))
+            {
+                // If user typed the short form, show the long form in results
+                results.Add(param);
             }
         }
 

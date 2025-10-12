@@ -97,9 +97,8 @@ public class CommandCompleterTests
     public void Git_Add_Parameters()
     {
         CommandCompleter.GetCompletions("git add")
-                        .Should().Contain(x => x.CompletionText == "-A")
-                        .And.Contain(x => x.CompletionText == "--all")
-                        .And.Contain(x => x.CompletionText == "-p")
+                        .Should().Contain(x => x.CompletionText == "--all")
+                        .And.Contain(x => x.CompletionText == "--patch")
                         .And.Contain(x => x.CompletionText == ".");
     }
 
@@ -115,9 +114,8 @@ public class CommandCompleterTests
     public void Git_Commit_Parameters()
     {
         CommandCompleter.GetCompletions("git commit")
-                        .Should().Contain(x => x.CompletionText == "-a")
+                        .Should().Contain(x => x.CompletionText == "--all")
                         .And.Contain(x => x.CompletionText == "--amend")
-                        .And.Contain(x => x.CompletionText == "-m")
                         .And.Contain(x => x.CompletionText == "--message");
     }
 
@@ -125,8 +123,7 @@ public class CommandCompleterTests
     public void Git_Commit_MultipleParameters()
     {
         CommandCompleter.GetCompletions("git commit -a -")
-                        .Should().Contain(x => x.CompletionText == "-m")
-                        .And.Contain(x => x.CompletionText == "--message")
+                        .Should().Contain(x => x.CompletionText == "--message")
                         .And.Contain(x => x.CompletionText == "--amend");
     }
 
@@ -191,9 +188,8 @@ public class CommandCompleterTests
     public void Gh_Auth_Login()
     {
         CommandCompleter.GetCompletions("gh auth login")
-                        .Should().Contain(x => x.CompletionText == "-w")
-                        .And.Contain(x => x.CompletionText == "--web")
-                        .And.Contain(x => x.CompletionText == "-h");
+                        .Should().Contain(x => x.CompletionText == "--web")
+                        .And.Contain(x => x.CompletionText == "--hostname");
     }
 
     [Fact]
@@ -220,9 +216,7 @@ public class CommandCompleterTests
     public void Gh_Pr_View_Parameters()
     {
         CommandCompleter.GetCompletions("gh pr view")
-                        .Should().Contain(x => x.CompletionText == "-w")
-                        .And.Contain(x => x.CompletionText == "--web")
-                        .And.Contain(x => x.CompletionText == "-c")
+                        .Should().Contain(x => x.CompletionText == "--web")
                         .And.Contain(x => x.CompletionText == "--comments");
     }
 
@@ -230,8 +224,7 @@ public class CommandCompleterTests
     public void Gh_Pr_Checks()
     {
         CommandCompleter.GetCompletions("gh pr checks")
-                        .Should().Contain(x => x.CompletionText == "-w")
-                        .And.Contain(x => x.CompletionText == "--web");
+                        .Should().Contain(x => x.CompletionText == "--web");
     }
 
     [Fact]
@@ -246,11 +239,8 @@ public class CommandCompleterTests
     public void Tre()
     {
         CommandCompleter.GetCompletions("tre")
-                        .Should().Contain(x => x.CompletionText == "-a")
-                        .And.Contain(x => x.CompletionText == "--all")
-                        .And.Contain(x => x.CompletionText == "-d")
+                        .Should().Contain(x => x.CompletionText == "--all")
                         .And.Contain(x => x.CompletionText == "--directories")
-                        .And.Contain(x => x.CompletionText == "-j")
                         .And.Contain(x => x.CompletionText == "--json");
     }
 
@@ -284,9 +274,7 @@ public class CommandCompleterTests
     public void Lsd()
     {
         CommandCompleter.GetCompletions("lsd")
-            .Should().Contain(x => x.CompletionText == "-a")
-            .And.Contain(x => x.CompletionText == "--all")
-            .And.Contain(x => x.CompletionText == "-l")
+            .Should().Contain(x => x.CompletionText == "--all")
             .And.Contain(x => x.CompletionText == "--long")
             .And.Contain(x => x.CompletionText == "--tree")
             .And.Contain(x => x.CompletionText == "--help");
@@ -336,9 +324,7 @@ public class CommandCompleterTests
     public void Dust()
     {
         CommandCompleter.GetCompletions("dust")
-            .Should().Contain(x => x.CompletionText == "-d")
-            .And.Contain(x => x.CompletionText == "--depth")
-            .And.Contain(x => x.CompletionText == "-n")
+            .Should().Contain(x => x.CompletionText == "--depth")
             .And.Contain(x => x.CompletionText == "--number-of-lines")
             .And.Contain(x => x.CompletionText == "--help");
     }
