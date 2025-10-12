@@ -115,13 +115,11 @@ public static class AzdCommand
                     ],
                     Parameters =
                     [
-                        new("-C", "Sets the current working directory."),
-                        new("--cwd", "Sets the current working directory."),
-                        new("--debug", "Enables debugging and diagnostics logging."),
-                        new("--docs", "Opens the documentation for azd auth in your web browser."),
-                        new("-h", "Gets help for auth."),
-                        new("--help", "Gets help for auth."),
-                        new("--no-prompt", "Accepts the default value instead of prompting, or it fails if there is no default.")
+                        new("--cwd", "Sets the current working directory (-C)") { Alias = "-C" },
+                        new("--debug", "Enables debugging and diagnostics logging"),
+                        new("--docs", "Opens the documentation for azd auth in your web browser"),
+                        new("--help", "Gets help for auth (-h)") { Alias = "-h" },
+                        new("--no-prompt", "Accepts the default value instead of prompting, or it fails if there is no default")
                     ]
                 },
                 new("config", "Manage azd configurations (ex: default Azure subscription, location)."),
@@ -130,27 +128,19 @@ public static class AzdCommand
                 {
                     Parameters =
                     [
-                        new("-b", "The template branch to initialize from. Must be used with a template argument (--template or -t)."),
-                        new("--branch", "The template branch to initialize from. Must be used with a template argument (--template or -t)."),
-                        new("-e", "The name of the environment to use."),
-                        new("--environment", "The name of the environment to use."),
-                        new("-f", "The tag(s) used to filter template results. Supports comma-separated values."),
-                        new("--filter", "The tag(s) used to filter template results. Supports comma-separated values."),
-                        new("--from-code", "Initializes a new application from your existing code."),
-                        new("-l", "Azure location for the new environment."),
-                        new("--location", "Azure location for the new environment."),
-                        new("-s", "Name or ID of an Azure subscription to use for the new environment."),
-                        new("--subscription", "Name or ID of an Azure subscription to use for the new environment."),
-                        new("-t", "Initializes a new application from a template. You can use Full URI, <owner>/<repository>, or <repository> if it's part of the azure-samples organization."),
-                        new("--template", "Initializes a new application from a template. You can use Full URI, <owner>/<repository>, or <repository> if it's part of the azure-samples organization."),
+                        new("--branch", "The template branch to initialize from. Must be used with a template argument (--template or -t) (-b)") { Alias = "-b" },
+                        new("--environment", "The name of the environment to use (-e)") { Alias = "-e" },
+                        new("--filter", "The tag(s) used to filter template results. Supports comma-separated values (-f)") { Alias = "-f" },
+                        new("--from-code", "Initializes a new application from your existing code"),
+                        new("--location", "Azure location for the new environment (-l)") { Alias = "-l" },
+                        new("--subscription", "Name or ID of an Azure subscription to use for the new environment (-s)") { Alias = "-s" },
+                        new("--template", "Initializes a new application from a template. You can use Full URI, <owner>/<repository>, or <repository> if it's part of the azure-samples organization (-t)") { Alias = "-t" },
                         // global
-                        new("-C", "Sets the current working directory."),
-                        new("--cwd", "Sets the current working directory."),
-                        new("--debug", "Enables debugging and diagnostics logging."),
-                        new("--docs", "Opens the documentation for azd init in your web browser."),
-                        new("-h", "Gets help for init."),
-                        new("--help", "Gets help for init."),
-                        new("--no-prompt", "Accepts the default value instead of prompting, or it fails if there is no default.")
+                        new("--cwd", "Sets the current working directory (-C)") { Alias = "-C" },
+                        new("--debug", "Enables debugging and diagnostics logging"),
+                        new("--docs", "Opens the documentation for azd init in your web browser"),
+                        new("--help", "Gets help for init (-h)") { Alias = "-h" },
+                        new("--no-prompt", "Accepts the default value instead of prompting, or it fails if there is no default")
                     ]
                 },
                 new("restore", "Restores the application's dependencies. (Beta)"),
@@ -168,13 +158,11 @@ public static class AzdCommand
             ],
             Parameters =
             [
-                new("-C", "Sets the current working directory."),
-                new("--cwd", "Sets the current working directory."),
-                new("--debug", "Enables debugging and diagnostics logging."),
-                new("--no-prompt", "Accepts the default value instead of prompting, or it fails if there is no default."),
-                new("--docs", "Opens the documentation for azd in your web browser."),
-                new("-h", "Gets help for azd."),
-                new("--help", "Gets help for azd.")
+                new("--cwd", "Sets the current working directory (-C)") { Alias = "-C" },
+                new("--debug", "Enables debugging and diagnostics logging"),
+                new("--no-prompt", "Accepts the default value instead of prompting, or it fails if there is no default"),
+                new("--docs", "Opens the documentation for azd in your web browser"),
+                new("--help", "Gets help for azd (-h)") { Alias = "-h" }
             ]
         };
     }

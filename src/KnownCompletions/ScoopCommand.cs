@@ -73,8 +73,7 @@ public static class ScoopCommand
                 {
                     Parameters =
                     [
-                        new("-l", "Checks the status for only the locally installed apps, and disables remote fetching/checking for Scoop and buckets"),
-                        new("--local", "Checks the status for only the locally installed apps, and disables remote fetching/checking for Scoop and buckets")
+                        new("--local", "Checks the status for only the locally installed apps, and disables remote fetching/checking for Scoop and buckets (-l)") { Alias = "-l" }
                     ]
                 },
                 new("unhold", "Unhold an app to enable updates"),

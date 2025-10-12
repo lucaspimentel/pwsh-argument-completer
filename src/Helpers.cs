@@ -32,6 +32,11 @@ public static class Helpers
             {
                 return completion;
             }
+
+            if (completion is CommandParameter param && param.Alias is not null && Equals(param.Alias, search))
+            {
+                return completion;
+            }
         }
 
         return null;

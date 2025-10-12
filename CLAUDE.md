@@ -81,11 +81,47 @@ To add a new command completer:
 3. Add the command to the switch statement in `CommandCompleter.GetCompletions()` (line 22-32)
 4. For dynamic completions, add a `DynamicArguments` property with a factory method
 
-Example:
+**Important: Parameter Alias Pattern**
+
+When a command has both short (`-x`) and long (`--xxx`) forms of the same parameter, **merge them into a single parameter** using the `Alias` property:
+
+- Use the **long form** as the main `CompletionText`
+- Add the **short form** to the `Alias` property
+- Include the **short form in parentheses** at the end of the tooltip
+
+This ensures:
+- No duplicate entries in completion results
+- Both forms work when the user types them
+- Clear documentation of which short form corresponds to each long form
+
+**Example:**
+```csharp
+// ❌ OLD WAY (duplicates):
+new("-a", "Update all packages"),
+new("--all", "Update all packages"),
+
+// ✅ NEW WAY (merged):
+new("--all", "Update all packages (-a)") { Alias = "-a" },
+```
+
+**Full example with nested properties:**
 ```csharp
 new("update", "Update packages")
 {
-    Parameters = [new("--all", "Update all packages")],
+    Parameters =
+    [
+        new("--all", "Update all packages (-a)") { Alias = "-a" },
+        new("--force", "Force update (-f)") { Alias = "-f" },
+        new("--output", "Output format (-o)")
+        {
+            Alias = "-o",
+            StaticArguments =
+            [
+                new("json", "JSON format"),
+                new("text", "Text format")
+            ]
+        }
+    ],
     DynamicArguments = GetInstalledPackages
 }
 
@@ -97,6 +133,12 @@ private static IEnumerable<DynamicArgument> GetInstalledPackages()
     }
 }
 ```
+
+**How it works:**
+- `CommandParameter.Alias` property stores the short form
+- `Command.GetCompletions()` automatically returns both forms when completing
+- `AliasCompletion` class wraps aliases so they appear separately in results
+- `Helpers.FindEquals()` checks both `CompletionText` and `Alias` when matching
 
 ## Project Configuration
 

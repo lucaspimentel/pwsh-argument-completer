@@ -9,10 +9,8 @@ internal static class LsdCommand
         {
             Parameters =
             [
-                new("-a", "Do not ignore entries starting with ."),
-                new("--all", "Do not ignore entries starting with ."),
-                new("-A", "Do not list implied . and .."),
-                new("--almost-all", "Do not list implied . and .."),
+                new("--all", "Do not ignore entries starting with . (-a)") { Alias = "-a" },
+                new("--almost-all", "Do not list implied . and .. (-A)") { Alias = "-A" },
                 new("--color", "When to use terminal colours")
                 {
                     StaticArguments =
@@ -39,22 +37,16 @@ internal static class LsdCommand
                         new("unicode", "Use unicode icons")
                     ]
                 },
-                new("-F", "Append indicator (one of */=>@|) at the end of the file names"),
-                new("--classify", "Append indicator (one of */=>@|) at the end of the file names"),
-                new("-l", "Display extended file metadata as a table"),
-                new("--long", "Display extended file metadata as a table"),
+                new("--classify", "Append indicator (one of */=>@|) at the end of the file names (-F)") { Alias = "-F" },
+                new("--long", "Display extended file metadata as a table (-l)") { Alias = "-l" },
                 new("--ignore-config", "Ignore the configuration file"),
                 new("--config-file", "Provide a custom lsd configuration file"),
-                new("-1", "Display one entry per line"),
-                new("--oneline", "Display one entry per line"),
-                new("-R", "Recurse into directories"),
-                new("--recursive", "Recurse into directories"),
-                new("-h", "For ls compatibility purposes ONLY, currently set by default"),
-                new("--human-readable", "For ls compatibility purposes ONLY, currently set by default"),
+                new("--oneline", "Display one entry per line (-1)") { Alias = "-1" },
+                new("--recursive", "Recurse into directories (-R)") { Alias = "-R" },
+                new("--human-readable", "For ls compatibility purposes ONLY, currently set by default (-h)") { Alias = "-h" },
                 new("--tree", "Recurse into directories and present the result as a tree"),
                 new("--depth", "Stop recursing into directories after reaching specified depth"),
-                new("-d", "Display directories themselves, and not their contents"),
-                new("--directory-only", "Display directories themselves, and not their contents"),
+                new("--directory-only", "Display directories themselves, and not their contents (-d)") { Alias = "-d" },
                 new("--permission", "How to display permissions")
                 {
                     StaticArguments =
@@ -84,16 +76,11 @@ internal static class LsdCommand
                         new("relative", "Display as relative time")
                     ]
                 },
-                new("-t", "Sort by time modified"),
-                new("--timesort", "Sort by time modified"),
-                new("-S", "Sort by size"),
-                new("--sizesort", "Sort by size"),
-                new("-X", "Sort by file extension"),
-                new("--extensionsort", "Sort by file extension"),
-                new("-G", "Sort by git status"),
-                new("--gitsort", "Sort by git status"),
-                new("-v", "Natural sort of (version) numbers within text"),
-                new("--versionsort", "Natural sort of (version) numbers within text"),
+                new("--timesort", "Sort by time modified (-t)") { Alias = "-t" },
+                new("--sizesort", "Sort by size (-S)") { Alias = "-S" },
+                new("--extensionsort", "Sort by file extension (-X)") { Alias = "-X" },
+                new("--gitsort", "Sort by git status (-G)") { Alias = "-G" },
+                new("--versionsort", "Natural sort of (version) numbers within text (-v)") { Alias = "-v" },
                 new("--sort", "Sort by TYPE instead of name")
                 {
                     StaticArguments =
@@ -106,10 +93,8 @@ internal static class LsdCommand
                         new("none", "No sorting")
                     ]
                 },
-                new("-U", "Do not sort. List entries in directory order"),
-                new("--no-sort", "Do not sort. List entries in directory order"),
-                new("-r", "Reverse the order of the sort"),
-                new("--reverse", "Reverse the order of the sort"),
+                new("--no-sort", "Do not sort. List entries in directory order (-U)") { Alias = "-U" },
+                new("--reverse", "Reverse the order of the sort (-r)") { Alias = "-r" },
                 new("--group-dirs", "Sort the directories then the files")
                 {
                     StaticArguments =
@@ -123,16 +108,11 @@ internal static class LsdCommand
                 new("--blocks", "Specify the blocks that will be displayed and in what order"),
                 new("--classic", "Enable classic mode (display output similar to ls)"),
                 new("--no-symlink", "Do not display symlink target"),
-                new("-I", "Do not display files/directories matching the glob pattern"),
-                new("--ignore-glob", "Do not display files/directories matching the glob pattern"),
-                new("-i", "Display the index number of each file"),
-                new("--inode", "Display the index number of each file"),
-                new("-g", "Show git status on file and directory (only with --long)"),
-                new("--git", "Show git status on file and directory (only with --long)"),
-                new("-L", "Show information for the file the link references"),
-                new("--dereference", "Show information for the file the link references"),
-                new("-Z", "Print security context (label) of each file"),
-                new("--context", "Print security context (label) of each file"),
+                new("--ignore-glob", "Do not display files/directories matching the glob pattern (-I)") { Alias = "-I" },
+                new("--inode", "Display the index number of each file (-i)") { Alias = "-i" },
+                new("--git", "Show git status on file and directory (only with --long) (-g)") { Alias = "-g" },
+                new("--dereference", "Show information for the file the link references (-L)") { Alias = "-L" },
+                new("--context", "Print security context (label) of each file (-Z)") { Alias = "-Z" },
                 new("--hyperlink", "Attach hyperlink to filenames")
                 {
                     StaticArguments =
@@ -146,11 +126,9 @@ internal static class LsdCommand
                 new("--truncate-owner-after", "Truncate user and group names after NUM characters"),
                 new("--truncate-owner-marker", "Truncation marker for truncated user or group name"),
                 new("--system-protected", "Includes files with the windows system protection flag set"),
-                new("-N", "Print entry names without quoting"),
-                new("--literal", "Print entry names without quoting"),
+                new("--literal", "Print entry names without quoting (-N)") { Alias = "-N" },
                 new("--help", "Print help information"),
-                new("-V", "Print version"),
-                new("--version", "Print version")
+                new("--version", "Print version (-V)") { Alias = "-V" }
             ]
         };
 }

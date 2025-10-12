@@ -32,6 +32,15 @@ public sealed class Command(string completionText, string? tooltip = null)
         Helpers.AddWhereStartsWith(SubCommands, results, wordToComplete);
         Helpers.AddWhereStartsWith(Parameters, results, wordToComplete);
 
+        // Add alias completions for parameters that have aliases
+        foreach (var param in Parameters)
+        {
+            if (param.Alias is not null && Helpers.StartsWith(param.Alias, wordToComplete))
+            {
+                results.Add(new AliasCompletion(param.Alias, param));
+            }
+        }
+
         if (DynamicArguments?.Invoke() is { } arguments)
         {
             Helpers.AddWhereStartsWith(arguments, results, wordToComplete);

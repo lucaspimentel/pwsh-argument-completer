@@ -5,13 +5,20 @@ public sealed class CommandParameter(string completionText, string? tooltip = nu
 {
     public string CompletionText { get; } = completionText;
     public string? Tooltip { get; } = tooltip;
+    public string? Alias { get; init; }
     public StaticArgument[] StaticArguments { get; init; } = [];
     public DynamicArgumentsFactory? DynamicArguments { get; init; }
 
     public ICompletion? FindNode(ReadOnlySpan<char> wordToComplete)
     {
-        var completion = Helpers.ThisIfEquals(this, wordToComplete) ??
-                         Helpers.FindEquals(StaticArguments, wordToComplete);
+        // Check if the word matches either the main completion text or the alias
+        if (Helpers.Equals(CompletionText, wordToComplete) ||
+            (Alias is not null && Helpers.Equals(Alias, wordToComplete)))
+        {
+            return this;
+        }
+
+        var completion = Helpers.FindEquals(StaticArguments, wordToComplete);
 
         if (completion is null && DynamicArguments?.Invoke() is { } arguments)
         {

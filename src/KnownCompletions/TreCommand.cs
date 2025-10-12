@@ -26,10 +26,10 @@ public static class TreCommand
         {
             Parameters =
             [
-                new("-a", "Print all files and directories, including hidden ones"),
-                new("--all", "Print all files and directories, including hidden ones"),
-                new("-c", "When to color the output")
+                new("--all", "Print all files and directories, including hidden ones (-a)") { Alias = "-a" },
+                new("--color", "When to color the output (-c)")
                 {
+                    Alias = "-c",
                     StaticArguments =
                     [
                         new("automatic", "Color when printing to a terminal"),
@@ -37,31 +37,14 @@ public static class TreCommand
                         new("never", "Never use colors"),
                     ]
                 },
-                new("--color", "When to color the output")
-                {
-                    StaticArguments =
-                    [
-                        new("automatic", "Color when printing to a terminal"),
-                        new("always", "Always use colors"),
-                        new("never", "Never use colors"),
-                    ]
-                },
-                new("-d", "Only list directories in output"),
-                new("--directories", "Only list directories in output"),
-                new("-e", "Create aliases for each displayed result"),
-                new("--editor", "Create aliases for each displayed result"),
-                new("-E", "Exclude paths matching a regex pattern"),
-                new("--exclude", "Exclude paths matching a regex pattern"),
-                new("-h", "Print help information"),
-                new("--help", "Print help information"),
-                new("-j", "Output JSON instead of tree diagram"),
-                new("--json", "Output JSON instead of tree diagram"),
-                new("-l", "Limit depth of the tree in output"),
-                new("--limit", "Limit depth of the tree in output"),
-                new("-p", "Generate portable (absolute) paths for editor aliases"),
-                new("--portable", "Generate portable (absolute) paths for editor aliases"),
-                new("-V", "Print version information"),
-                new("--version", "Print version information"),
+                new("--directories", "Only list directories in output (-d)") { Alias = "-d" },
+                new("--editor", "Create aliases for each displayed result (-e)") { Alias = "-e" },
+                new("--exclude", "Exclude paths matching a regex pattern (-E)") { Alias = "-E" },
+                new("--help", "Print help information (-h)") { Alias = "-h" },
+                new("--json", "Output JSON instead of tree diagram (-j)") { Alias = "-j" },
+                new("--limit", "Limit depth of the tree in output (-l)") { Alias = "-l" },
+                new("--portable", "Generate portable (absolute) paths for editor aliases (-p)") { Alias = "-p" },
+                new("--version", "Print version information (-V)") { Alias = "-V" },
             ]
         };
     }

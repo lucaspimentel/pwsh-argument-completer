@@ -51,32 +51,25 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-h", "Hostname to authenticate with"),
-                                new("--hostname", "Hostname to authenticate with"),
-                                new("-p", "Authentication protocol"),
-                                new("--git-protocol", "Authentication protocol"),
-                                new("-s", "Additional authentication scopes"),
-                                new("--scopes", "Additional authentication scopes"),
-                                new("-w", "Open browser to authenticate"),
-                                new("--web", "Open browser to authenticate"),
+                                new("--hostname", "Hostname to authenticate with (-h)") { Alias = "-h" },
+                                new("--git-protocol", "Authentication protocol (-p)") { Alias = "-p" },
+                                new("--scopes", "Additional authentication scopes (-s)") { Alias = "-s" },
+                                new("--web", "Open browser to authenticate (-w)") { Alias = "-w" },
                             ]
                         },
                         new("logout", "Log out of a GitHub account")
                         {
                             Parameters =
                             [
-                                new("-h", "Hostname to log out of"),
-                                new("--hostname", "Hostname to log out of"),
+                                new("--hostname", "Hostname to log out of (-h)") { Alias = "-h" },
                             ]
                         },
                         new("refresh", "Refresh stored authentication credentials")
                         {
                             Parameters =
                             [
-                                new("-h", "Hostname to refresh"),
-                                new("--hostname", "Hostname to refresh"),
-                                new("-s", "Additional authentication scopes"),
-                                new("--scopes", "Additional authentication scopes"),
+                                new("--hostname", "Hostname to refresh (-h)") { Alias = "-h" },
+                                new("--scopes", "Additional authentication scopes (-s)") { Alias = "-s" },
                             ]
                         },
                         new("setup-git", "Setup git with GitHub CLI"),
@@ -86,8 +79,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-h", "Hostname for the token"),
-                                new("--hostname", "Hostname for the token"),
+                                new("--hostname", "Hostname for the token (-h)") { Alias = "-h" },
                             ]
                         },
                     ]
@@ -96,14 +88,10 @@ public static class GhCommand
                 {
                     Parameters =
                     [
-                        new("-b", "Select branch"),
-                        new("--branch", "Select branch"),
-                        new("-c", "Open commit"),
-                        new("--commit", "Open commit"),
-                        new("-n", "Don't open browser"),
-                        new("--no-browser", "Don't open browser"),
-                        new("-R", "Select repository"),
-                        new("--repo", "Select repository"),
+                        new("--branch", "Select branch (-b)") { Alias = "-b" },
+                        new("--commit", "Open commit (-c)") { Alias = "-c" },
+                        new("--no-browser", "Don't open browser (-n)") { Alias = "-n" },
+                        new("--repo", "Select repository (-R)") { Alias = "-R" },
                     ]
                 },
                 new("codespace", "Connect to and manage codespaces")
@@ -126,14 +114,10 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-d", "Description"),
-                                new("--desc", "Description"),
-                                new("-f", "Filename"),
-                                new("--filename", "Filename"),
-                                new("-p", "Make gist public"),
-                                new("--public", "Make gist public"),
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--desc", "Description (-d)") { Alias = "-d" },
+                                new("--filename", "Filename (-f)") { Alias = "-f" },
+                                new("--public", "Make gist public (-p)") { Alias = "-p" },
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                         new("clone", "Clone a gist"),
@@ -151,8 +135,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                     ]
@@ -165,16 +148,11 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-a", "Assign people by login"),
-                                new("--assignee", "Assign people by login"),
-                                new("-b", "Body text"),
-                                new("--body", "Body text"),
-                                new("-l", "Add labels"),
-                                new("--label", "Add labels"),
-                                new("-t", "Title"),
-                                new("--title", "Title"),
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--assignee", "Assign people by login (-a)") { Alias = "-a" },
+                                new("--body", "Body text (-b)") { Alias = "-b" },
+                                new("--label", "Add labels (-l)") { Alias = "-l" },
+                                new("--title", "Title (-t)") { Alias = "-t" },
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                         new("close", "Close an issue"),
@@ -185,16 +163,11 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-a", "Filter by assignee"),
-                                new("--assignee", "Filter by assignee"),
-                                new("-A", "Filter by author"),
-                                new("--author", "Filter by author"),
-                                new("-l", "Filter by label"),
-                                new("--label", "Filter by label"),
-                                new("-s", "Filter by state"),
-                                new("--state", "Filter by state"),
-                                new("-L", "Maximum number to fetch"),
-                                new("--limit", "Maximum number to fetch"),
+                                new("--assignee", "Filter by assignee (-a)") { Alias = "-a" },
+                                new("--author", "Filter by author (-A)") { Alias = "-A" },
+                                new("--label", "Filter by label (-l)") { Alias = "-l" },
+                                new("--state", "Filter by state (-s)") { Alias = "-s" },
+                                new("--limit", "Maximum number to fetch (-L)") { Alias = "-L" },
                             ]
                         },
                         new("reopen", "Reopen an issue"),
@@ -203,17 +176,14 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-c", "View comments"),
-                                new("--comments", "View comments"),
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--comments", "View comments (-c)") { Alias = "-c" },
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                     ],
                     Parameters =
                     [
-                        new("-R", "Select repository"),
-                        new("--repo", "Select repository"),
+                        new("--repo", "Select repository (-R)") { Alias = "-R" },
                     ]
                 },
                 new("org", "Manage organizations")
@@ -231,24 +201,15 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-a", "Assign people by login"),
-                                new("--assignee", "Assign people by login"),
-                                new("-B", "Base branch"),
-                                new("--base", "Base branch"),
-                                new("-b", "Body text"),
-                                new("--body", "Body text"),
-                                new("-d", "Mark as draft"),
-                                new("--draft", "Mark as draft"),
-                                new("-f", "Use commit message for title and body"),
-                                new("--fill", "Use commit message for title and body"),
-                                new("-H", "Head branch"),
-                                new("--head", "Head branch"),
-                                new("-l", "Add labels"),
-                                new("--label", "Add labels"),
-                                new("-t", "Title"),
-                                new("--title", "Title"),
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--assignee", "Assign people by login (-a)") { Alias = "-a" },
+                                new("--base", "Base branch (-B)") { Alias = "-B" },
+                                new("--body", "Body text (-b)") { Alias = "-b" },
+                                new("--draft", "Mark as draft (-d)") { Alias = "-d" },
+                                new("--fill", "Use commit message for title and body (-f)") { Alias = "-f" },
+                                new("--head", "Head branch (-H)") { Alias = "-H" },
+                                new("--label", "Add labels (-l)") { Alias = "-l" },
+                                new("--title", "Title (-t)") { Alias = "-t" },
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                         new("checkout", "Check out a pull request in git"),
@@ -256,8 +217,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                         new("close", "Close a pull request"),
@@ -275,32 +235,22 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-a", "Filter by assignee"),
-                                new("--assignee", "Filter by assignee"),
-                                new("-A", "Filter by author"),
-                                new("--author", "Filter by author"),
-                                new("-B", "Filter by base branch"),
-                                new("--base", "Filter by base branch"),
-                                new("-l", "Filter by label"),
-                                new("--label", "Filter by label"),
-                                new("-s", "Filter by state"),
-                                new("--state", "Filter by state"),
-                                new("-L", "Maximum number to fetch"),
-                                new("--limit", "Maximum number to fetch"),
+                                new("--assignee", "Filter by assignee (-a)") { Alias = "-a" },
+                                new("--author", "Filter by author (-A)") { Alias = "-A" },
+                                new("--base", "Filter by base branch (-B)") { Alias = "-B" },
+                                new("--label", "Filter by label (-l)") { Alias = "-l" },
+                                new("--state", "Filter by state (-s)") { Alias = "-s" },
+                                new("--limit", "Maximum number to fetch (-L)") { Alias = "-L" },
                             ]
                         },
                         new("merge", "Merge a pull request")
                         {
                             Parameters =
                             [
-                                new("-m", "Merge commit"),
-                                new("--merge", "Merge commit"),
-                                new("-r", "Rebase and merge"),
-                                new("--rebase", "Rebase and merge"),
-                                new("-s", "Squash and merge"),
-                                new("--squash", "Squash and merge"),
-                                new("-d", "Delete branch after merge"),
-                                new("--delete-branch", "Delete branch after merge"),
+                                new("--merge", "Merge commit (-m)") { Alias = "-m" },
+                                new("--rebase", "Rebase and merge (-r)") { Alias = "-r" },
+                                new("--squash", "Squash and merge (-s)") { Alias = "-s" },
+                                new("--delete-branch", "Delete branch after merge (-d)") { Alias = "-d" },
                             ]
                         },
                         new("ready", "Mark a pull request as ready for review"),
@@ -309,12 +259,9 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-a", "Approve pull request"),
-                                new("--approve", "Approve pull request"),
-                                new("-c", "Comment on pull request"),
-                                new("--comment", "Comment on pull request"),
-                                new("-r", "Request changes"),
-                                new("--request-changes", "Request changes"),
+                                new("--approve", "Approve pull request (-a)") { Alias = "-a" },
+                                new("--comment", "Comment on pull request (-c)") { Alias = "-c" },
+                                new("--request-changes", "Request changes (-r)") { Alias = "-r" },
                             ]
                         },
                         new("status", "Show status of relevant pull requests"),
@@ -322,17 +269,14 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-c", "View comments"),
-                                new("--comments", "View comments"),
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--comments", "View comments (-c)") { Alias = "-c" },
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                     ],
                     Parameters =
                     [
-                        new("-R", "Select repository"),
-                        new("--repo", "Select repository"),
+                        new("--repo", "Select repository (-R)") { Alias = "-R" },
                     ]
                 },
                 new("project", "Work with GitHub Projects"),
@@ -344,14 +288,10 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-d", "Mark as draft"),
-                                new("--draft", "Mark as draft"),
-                                new("-n", "Release notes"),
-                                new("--notes", "Release notes"),
-                                new("-p", "Mark as prerelease"),
-                                new("--prerelease", "Mark as prerelease"),
-                                new("-t", "Release title"),
-                                new("--title", "Release title"),
+                                new("--draft", "Mark as draft (-d)") { Alias = "-d" },
+                                new("--notes", "Release notes (-n)") { Alias = "-n" },
+                                new("--prerelease", "Mark as prerelease (-p)") { Alias = "-p" },
+                                new("--title", "Release title (-t)") { Alias = "-t" },
                             ]
                         },
                         new("delete", "Delete a release"),
@@ -360,8 +300,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-L", "Maximum number to fetch"),
-                                new("--limit", "Maximum number to fetch"),
+                                new("--limit", "Maximum number to fetch (-L)") { Alias = "-L" },
                             ]
                         },
                         new("upload", "Upload release assets"),
@@ -369,8 +308,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                     ]
@@ -386,10 +324,8 @@ public static class GhCommand
                                 new("--public", "Make repository public"),
                                 new("--private", "Make repository private"),
                                 new("--internal", "Make repository internal"),
-                                new("-d", "Description"),
-                                new("--description", "Description"),
-                                new("-h", "Homepage URL"),
-                                new("--homepage", "Homepage URL"),
+                                new("--description", "Description (-d)") { Alias = "-d" },
+                                new("--homepage", "Homepage URL (-h)") { Alias = "-h" },
                                 new("--clone", "Clone repository after creation"),
                             ]
                         },
@@ -407,8 +343,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-L", "Maximum number to fetch"),
-                                new("--limit", "Maximum number to fetch"),
+                                new("--limit", "Maximum number to fetch (-L)") { Alias = "-L" },
                                 new("--source", "Show only non-forks"),
                                 new("--fork", "Show only forks"),
                             ]
@@ -419,8 +354,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                     ]
@@ -433,18 +367,15 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-L", "Maximum number to fetch"),
-                                new("--limit", "Maximum number to fetch"),
-                                new("-w", "Filter by workflow"),
-                                new("--workflow", "Filter by workflow"),
+                                new("--limit", "Maximum number to fetch (-L)") { Alias = "-L" },
+                                new("--workflow", "Filter by workflow (-w)") { Alias = "-w" },
                             ]
                         },
                         new("view", "View a workflow run")
                         {
                             Parameters =
                             [
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                                 new("--log", "View full log"),
                             ]
                         },
@@ -462,8 +393,7 @@ public static class GhCommand
                         {
                             Parameters =
                             [
-                                new("-w", "Open in browser"),
-                                new("--web", "Open in browser"),
+                                new("--web", "Open in browser (-w)") { Alias = "-w" },
                             ]
                         },
                         new("run", "Run a workflow"),
@@ -484,20 +414,16 @@ public static class GhCommand
                 {
                     Parameters =
                     [
-                        new("-H", "Add HTTP header"),
-                        new("--header", "Add HTTP header"),
-                        new("-X", "HTTP method"),
-                        new("--method", "HTTP method"),
-                        new("-F", "Add form field"),
-                        new("--field", "Add form field"),
+                        new("--header", "Add HTTP header (-H)") { Alias = "-H" },
+                        new("--method", "HTTP method (-X)") { Alias = "-X" },
+                        new("--field", "Add form field (-F)") { Alias = "-F" },
                     ]
                 },
                 new("completion", "Generate shell completion scripts")
                 {
                     Parameters =
                     [
-                        new("-s", "Shell type (bash, zsh, fish, powershell)"),
-                        new("--shell", "Shell type (bash, zsh, fish, powershell)"),
+                        new("--shell", "Shell type (bash, zsh, fish, powershell) (-s)") { Alias = "-s" },
                     ]
                 },
                 new("config", "Manage configuration for gh")

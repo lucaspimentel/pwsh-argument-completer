@@ -49,14 +49,10 @@ public static class GitCommand
                 {
                     Parameters =
                     [
-                        new("-A", "Add all changes"),
-                        new("--all", "Add all changes"),
-                        new("-f", "Force add ignored files"),
-                        new("--force", "Force add ignored files"),
-                        new("-p", "Interactively choose hunks"),
-                        new("--patch", "Interactively choose hunks"),
-                        new("-u", "Update tracked files"),
-                        new("--update", "Update tracked files"),
+                        new("--all", "Add all changes (-A)") { Alias = "-A" },
+                        new("--force", "Force add ignored files (-f)") { Alias = "-f" },
+                        new("--patch", "Interactively choose hunks (-p)") { Alias = "-p" },
+                        new("--update", "Update tracked files (-u)") { Alias = "-u" },
                         new(".", "Add all changes in current directory"),
                     ]
                 },
@@ -75,18 +71,13 @@ public static class GitCommand
                 {
                     Parameters =
                     [
-                        new("-a", "List all branches"),
-                        new("--all", "List all branches"),
-                        new("-d", "Delete branch"),
-                        new("--delete", "Delete branch"),
+                        new("--all", "List all branches (-a)") { Alias = "-a" },
+                        new("--delete", "Delete branch (-d)") { Alias = "-d" },
                         new("-D", "Force delete branch"),
-                        new("-m", "Move/rename branch"),
-                        new("--move", "Move/rename branch"),
+                        new("--move", "Move/rename branch (-m)") { Alias = "-m" },
                         new("-M", "Force move/rename branch"),
-                        new("-r", "List remote branches"),
-                        new("--remote", "List remote branches"),
-                        new("-v", "Verbose output"),
-                        new("--verbose", "Verbose output"),
+                        new("--remote", "List remote branches (-r)") { Alias = "-r" },
+                        new("--verbose", "Verbose output (-v)") { Alias = "-v" },
                         new("-vv", "Very verbose output"),
                     ],
                     DynamicArguments = GetBranches
@@ -97,8 +88,7 @@ public static class GitCommand
                     [
                         new("-b", "Create and checkout new branch"),
                         new("-B", "Create/reset and checkout branch"),
-                        new("-f", "Force checkout"),
-                        new("--force", "Force checkout"),
+                        new("--force", "Force checkout (-f)") { Alias = "-f" },
                         new("-", "Switch to previous branch"),
                     ],
                     DynamicArguments = GetBranches
@@ -117,10 +107,8 @@ public static class GitCommand
                     Parameters =
                     [
                         new("-d", "Remove untracked directories"),
-                        new("-f", "Force clean"),
-                        new("--force", "Force clean"),
-                        new("-n", "Dry run"),
-                        new("--dry-run", "Dry run"),
+                        new("--force", "Force clean (-f)") { Alias = "-f" },
+                        new("--dry-run", "Dry run (-n)") { Alias = "-n" },
                         new("-x", "Remove ignored files too"),
                     ]
                 },
@@ -130,22 +118,18 @@ public static class GitCommand
                     [
                         new("--bare", "Create a bare repository"),
                         new("--depth", "Create a shallow clone with history truncated"),
-                        new("--branch", "Checkout specific branch"),
-                        new("-b", "Checkout specific branch"),
+                        new("--branch", "Checkout specific branch (-b)") { Alias = "-b" },
                     ]
                 },
                 new("commit", "Record changes to the repository")
                 {
                     Parameters =
                     [
-                        new("-a", "Commit all changes"),
-                        new("--all", "Commit all changes"),
+                        new("--all", "Commit all changes (-a)") { Alias = "-a" },
                         new("--amend", "Amend previous commit"),
-                        new("-m", "Commit message"),
-                        new("--message", "Commit message"),
+                        new("--message", "Commit message (-m)") { Alias = "-m" },
                         new("--no-verify", "Skip pre-commit and commit-msg hooks"),
-                        new("-v", "Show diff in commit message editor"),
-                        new("--verbose", "Show diff in commit message editor"),
+                        new("--verbose", "Show diff in commit message editor (-v)") { Alias = "-v" },
                     ]
                 },
                 new("diff", "Show changes between commits, commit and working tree, etc")
@@ -165,8 +149,7 @@ public static class GitCommand
                     Parameters =
                     [
                         new("--all", "Fetch all remotes"),
-                        new("-p", "Prune deleted remote branches"),
-                        new("--prune", "Prune deleted remote branches"),
+                        new("--prune", "Prune deleted remote branches (-p)") { Alias = "-p" },
                         new("--tags", "Fetch all tags"),
                     ],
                     DynamicArguments = GetRemotes
@@ -176,8 +159,7 @@ public static class GitCommand
                     Parameters =
                     [
                         new("--bare", "Create a bare repository"),
-                        new("--initial-branch", "Set initial branch name"),
-                        new("-b", "Set initial branch name"),
+                        new("--initial-branch", "Set initial branch name (-b)") { Alias = "-b" },
                     ]
                 },
                 new("log", "Show commit logs")
@@ -188,8 +170,7 @@ public static class GitCommand
                         new("--graph", "Show commit graph"),
                         new("--all", "Show all branches"),
                         new("--stat", "Show file change stats"),
-                        new("-p", "Show patch"),
-                        new("--patch", "Show patch"),
+                        new("--patch", "Show patch (-p)") { Alias = "-p" },
                         new("-n", "Limit number of commits"),
                         new("--follow", "Follow file history across renames"),
                     ]
@@ -210,8 +191,7 @@ public static class GitCommand
                 {
                     Parameters =
                     [
-                        new("-f", "Force move"),
-                        new("--force", "Force move"),
+                        new("--force", "Force move (-f)") { Alias = "-f" },
                     ]
                 },
                 new("pull", "Fetch from and integrate with another repository or a local branch")
@@ -229,10 +209,8 @@ public static class GitCommand
                 {
                     Parameters =
                     [
-                        new("-u", "Set upstream tracking"),
-                        new("--set-upstream", "Set upstream tracking"),
-                        new("-f", "Force push"),
-                        new("--force", "Force push"),
+                        new("--set-upstream", "Set upstream tracking (-u)") { Alias = "-u" },
+                        new("--force", "Force push (-f)") { Alias = "-f" },
                         new("--force-with-lease", "Force push with lease"),
                         new("--all", "Push all branches"),
                         new("--tags", "Push all tags"),
@@ -247,8 +225,7 @@ public static class GitCommand
                         new("--continue", "Continue rebase"),
                         new("--abort", "Abort rebase"),
                         new("--skip", "Skip current commit"),
-                        new("-i", "Interactive rebase"),
-                        new("--interactive", "Interactive rebase"),
+                        new("--interactive", "Interactive rebase (-i)") { Alias = "-i" },
                     ],
                     DynamicArguments = GetBranches
                 },
@@ -286,8 +263,7 @@ public static class GitCommand
                 {
                     Parameters =
                     [
-                        new("-f", "Force remove"),
-                        new("--force", "Force remove"),
+                        new("--force", "Force remove (-f)") { Alias = "-f" },
                         new("-r", "Recursively remove"),
                         new("--cached", "Remove only from index"),
                     ]
@@ -316,20 +292,16 @@ public static class GitCommand
                     ],
                     Parameters =
                     [
-                        new("-u", "Include untracked files"),
-                        new("--include-untracked", "Include untracked files"),
-                        new("-a", "Include ignored files"),
-                        new("--all", "Include ignored files"),
+                        new("--include-untracked", "Include untracked files (-u)") { Alias = "-u" },
+                        new("--all", "Include ignored files (-a)") { Alias = "-a" },
                     ]
                 },
                 new("status", "Show the working tree status")
                 {
                     Parameters =
                     [
-                        new("-s", "Short format"),
-                        new("--short", "Short format"),
-                        new("-b", "Show branch info"),
-                        new("--branch", "Show branch info"),
+                        new("--short", "Short format (-s)") { Alias = "-s" },
+                        new("--branch", "Show branch info (-b)") { Alias = "-b" },
                         new("--porcelain", "Machine-readable format"),
                     ]
                 },
@@ -337,11 +309,9 @@ public static class GitCommand
                 {
                     Parameters =
                     [
-                        new("-c", "Create and switch to new branch"),
-                        new("--create", "Create and switch to new branch"),
+                        new("--create", "Create and switch to new branch (-c)") { Alias = "-c" },
                         new("-C", "Create/reset and switch to branch"),
-                        new("-d", "Switch to a commit for inspection"),
-                        new("--detach", "Switch to a commit for inspection"),
+                        new("--detach", "Switch to a commit for inspection (-d)") { Alias = "-d" },
                         new("-", "Switch to previous branch"),
                     ],
                     DynamicArguments = GetBranches
@@ -350,14 +320,10 @@ public static class GitCommand
                 {
                     Parameters =
                     [
-                        new("-a", "Create annotated tag"),
-                        new("--annotate", "Create annotated tag"),
-                        new("-d", "Delete tag"),
-                        new("--delete", "Delete tag"),
-                        new("-l", "List tags"),
-                        new("--list", "List tags"),
-                        new("-m", "Tag message"),
-                        new("--message", "Tag message"),
+                        new("--annotate", "Create annotated tag (-a)") { Alias = "-a" },
+                        new("--delete", "Delete tag (-d)") { Alias = "-d" },
+                        new("--list", "List tags (-l)") { Alias = "-l" },
+                        new("--message", "Tag message (-m)") { Alias = "-m" },
                     ],
                     DynamicArguments = GetTags
                 },
