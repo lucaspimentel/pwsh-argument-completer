@@ -6,7 +6,10 @@ namespace PowerShellArgumentCompleter;
 
 public static class CommandCompleter
 {
-    public static IEnumerable<ICompletion> GetCompletions(ReadOnlySpan<char> commandLine)
+    public static IEnumerable<ICompletion> GetCompletions(ReadOnlySpan<char> commandLine) =>
+        GetCompletions(commandLine, default);
+
+    public static IEnumerable<ICompletion> GetCompletions(ReadOnlySpan<char> commandLine, ReadOnlySpan<char> wordToComplete)
     {
         var length = GetCommandLength(commandLine);
 
@@ -81,9 +84,14 @@ public static class CommandCompleter
             }
         }
 
+        // If wordToComplete is provided and currentArgument is empty, use wordToComplete
+        // This handles the case where the user has typed a partial argument (like -d)
+        // that hasn't been fully parsed yet
+        var searchTerm = currentArgument.IsEmpty && !wordToComplete.IsEmpty ? wordToComplete : currentArgument;
+
         return currentCompletion switch
         {
-            ICompletionWithChildren cwc => cwc.GetCompletions(currentArgument).OrderBy(c => c.CompletionText),
+            ICompletionWithChildren cwc => cwc.GetCompletions(searchTerm).OrderBy(c => c.CompletionText),
             not null => [currentCompletion],
             null => []
         };

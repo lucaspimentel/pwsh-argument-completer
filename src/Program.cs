@@ -40,7 +40,7 @@ internal static class Program
                 return;
             }
 
-            // var wordToComplete = args[0];
+            var wordToComplete = args[0];
             var commandAst = args[1];
             var cursorPosition = int.Parse(args[2]);
 
@@ -48,7 +48,7 @@ internal static class Program
                 commandAst.AsSpan(0, cursorPosition) :
                 commandAst.AsSpan();
 
-            var completions = CommandCompleter.GetCompletions(truncatedCommandAst);
+            var completions = CommandCompleter.GetCompletions(truncatedCommandAst, wordToComplete);
 
             foreach (var completion in completions)
             {

@@ -34,13 +34,14 @@ public sealed class Command(string completionText, string? tooltip = null)
         // Add parameters that match the search, including by alias
         foreach (var param in Parameters)
         {
-            if (Helpers.StartsWith(param.CompletionText, wordToComplete))
+            // Check if the long form starts with the search text
+            var longFormMatches = Helpers.StartsWith(param.CompletionText, wordToComplete);
+
+            // Check if the alias (short form) starts with the search text
+            var aliasMatches = param.Alias is not null && Helpers.StartsWith(param.Alias, wordToComplete);
+
+            if (longFormMatches || aliasMatches)
             {
-                results.Add(param);
-            }
-            else if (param.Alias is not null && Helpers.StartsWith(param.Alias, wordToComplete))
-            {
-                // If user typed the short form, show the long form in results
                 results.Add(param);
             }
         }
