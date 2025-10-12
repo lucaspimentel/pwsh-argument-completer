@@ -136,9 +136,10 @@ private static IEnumerable<DynamicArgument> GetInstalledPackages()
 
 **How it works:**
 - `CommandParameter.Alias` property stores the short form
-- `Command.GetCompletions()` automatically returns both forms when completing
-- `AliasCompletion` class wraps aliases so they appear separately in results
-- `Helpers.FindEquals()` checks both `CompletionText` and `Alias` when matching
+- `Command.GetCompletions()` returns only the long form in completion results
+- When user types a short form, the long form is suggested
+- `Helpers.FindEquals()` checks both `CompletionText` and `Alias` when matching user input
+- Result: cleaner completion lists with no duplicates, but both forms still work when typed
 
 ## Project Configuration
 
