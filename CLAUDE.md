@@ -105,7 +105,11 @@ The completer builds a tree of completion nodes. When parsing `scoop update bat`
 **For dynamic completions:**
 - Add a `DynamicArguments` property with a factory method that yields `DynamicArgument` instances
 - Use `Helpers.ExecuteCommand()` to run commands and parse output
-- Example: installed packages, available plugins, configured sources
+- Examples in the codebase:
+  - `scoop update` → lists installed scoop packages
+  - `git checkout` → lists git branches
+  - `git push/fetch` → lists git remotes
+  - `git tag` → lists git tags
 
 **Important: Parameter Alias Pattern**
 
@@ -314,13 +318,15 @@ Currently implemented completions with their completion level:
   - Parameters with aliases (e.g., `-h`/`--silent`, `-i`/`--interactive`)
   - Static arguments for scope (user/machine), architecture (x86/x64/arm/arm64), installer-type
 - **git** - Version control with common subcommands and parameters
+  - 🔄 Dynamic completions: branches, remotes, tags
 - **gh** - GitHub CLI with subcommands and parameters
 - **tre** - Tree viewer with parameters and static arguments
 - **lsd** - LSDeluxe with parameters and static arguments
 - **dust** - Disk usage tool with parameters and static arguments
 
 ### Basic Implementation (subcommands only, parameters needed)
-- **scoop** - Package manager for Windows (has dynamic completions for installed packages)
+- **scoop** - Package manager for Windows
+  - 🔄 Dynamic completions: installed packages for `scoop update`
 - **az** - Azure CLI (subcommands only)
 - **azd** - Azure Developer CLI (subcommands only)
 - **func** - Azure Functions Core Tools (subcommands only)

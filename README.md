@@ -32,6 +32,10 @@ This tool provides intelligent tab completion for various command-line tools in 
 - **Alias support**: Both short (`-h`) and long (`--help`) forms work seamlessly
 - **Static arguments**: Suggests valid values for parameters (e.g., `--scope` → `user` or `machine`)
 - **Nested subcommands**: Handles complex command structures (e.g., `winget source add`)
+- **Dynamic completions**: Context-aware suggestions based on your environment
+  - `scoop update <Tab>` lists your installed scoop packages
+  - `git checkout <Tab>` lists your git branches
+  - `git push <Tab>` lists your git remotes
 
 ## Installation
 
@@ -142,6 +146,21 @@ PS> gh pr <Tab>
 
 PS> gh pr view --<Tab>
 # Shows: --web, --comments, etc.
+```
+
+**Dynamic completions (context-aware):**
+```powershell
+PS> scoop update <Tab>
+# Shows your installed scoop packages: git, python, nodejs, etc.
+
+PS> git checkout <Tab>
+# Shows your git branches: main, develop, feature/new-feature, etc.
+
+PS> git push origin <Tab>
+# Shows your git branches for pushing
+
+PS> git fetch <Tab>
+# Shows your git remotes: origin, upstream, etc.
 ```
 
 ## How It Works
