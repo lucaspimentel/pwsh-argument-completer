@@ -35,18 +35,20 @@ This tool provides intelligent tab completion for various command-line tools in 
 
 ## Installation
 
-### 1. Build the executable
+### 1. Build the native executable
 
 ```powershell
 # Clone the repository
 git clone https://github.com/lucaspimentel/pwsh-argument-completer.git
 cd pwsh-argument-completer
 
-# Build the project
-dotnet build -c Release
+# Publish as a native executable using NativeAOT
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r win-x64
 
-# The executable will be at: src/bin/Release/net9.0/pwsh-argument-completer.exe
+# The native executable will be at: src/bin/Release/net9.0/win-x64/publish/pwsh-argument-completer.exe
 ```
+
+> **Note:** Using `dotnet publish` with NativeAOT produces a self-contained native executable with no runtime dependencies and faster startup times. Regular `dotnet build` produces a managed executable that requires the .NET runtime.
 
 ### 2. Copy to your PATH (optional but recommended)
 
@@ -54,7 +56,7 @@ For easier access, copy the executable to a directory in your PATH:
 
 ```powershell
 # Example: copy to a local bin directory
-Copy-Item src/bin/Release/net9.0/pwsh-argument-completer.exe ~/.local/bin/
+Copy-Item src/bin/Release/net9.0/win-x64/publish/pwsh-argument-completer.exe ~/.local/bin/
 ```
 
 Or add the build directory to your PATH.
