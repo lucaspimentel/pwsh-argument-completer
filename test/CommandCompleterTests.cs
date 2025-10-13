@@ -351,4 +351,259 @@ public class CommandCompleterTests
             .And.Contain(x => x.CompletionText == "c")
             .And.Contain(x => x.CompletionText == "m");
     }
+
+    [Fact]
+    public void Winget()
+    {
+        CommandCompleter.GetCompletions("winget")
+            .Should().Contain(x => x.CompletionText == "install")
+            .And.Contain(x => x.CompletionText == "search")
+            .And.Contain(x => x.CompletionText == "upgrade")
+            .And.Contain(x => x.CompletionText == "uninstall")
+            .And.Contain(x => x.CompletionText == "list")
+            .And.Contain(x => x.CompletionText == "show")
+            .And.Contain(x => x.CompletionText == "source")
+            .And.Contain(x => x.CompletionText == "pin")
+            .And.Contain(x => x.CompletionText == "export")
+            .And.Contain(x => x.CompletionText == "import")
+            .And.Contain(x => x.CompletionText == "download");
+    }
+
+    [Fact]
+    public void Winget_Install()
+    {
+        CommandCompleter.GetCompletions("winget ins")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("install");
+    }
+
+    [Fact]
+    public void Winget_Install_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget install")
+            .Should().Contain(x => x.CompletionText == "--silent")
+            .And.Contain(x => x.CompletionText == "--interactive")
+            .And.Contain(x => x.CompletionText == "--scope")
+            .And.Contain(x => x.CompletionText == "--architecture")
+            .And.Contain(x => x.CompletionText == "--version")
+            .And.Contain(x => x.CompletionText == "--source")
+            .And.Contain(x => x.CompletionText == "--exact");
+    }
+
+    [Fact]
+    public void Winget_Install_Scope()
+    {
+        CommandCompleter.GetCompletions("winget install --scope")
+            .Should().Contain(x => x.CompletionText == "user")
+            .And.Contain(x => x.CompletionText == "machine");
+    }
+
+    [Fact]
+    public void Winget_Install_Architecture()
+    {
+        CommandCompleter.GetCompletions("winget install --architecture")
+            .Should().Contain(x => x.CompletionText == "x86")
+            .And.Contain(x => x.CompletionText == "x64")
+            .And.Contain(x => x.CompletionText == "arm")
+            .And.Contain(x => x.CompletionText == "arm64");
+    }
+
+    [Fact]
+    public void Winget_Install_InstallerType()
+    {
+        CommandCompleter.GetCompletions("winget install --installer-type")
+            .Should().Contain(x => x.CompletionText == "msix")
+            .And.Contain(x => x.CompletionText == "msi")
+            .And.Contain(x => x.CompletionText == "exe")
+            .And.Contain(x => x.CompletionText == "portable");
+    }
+
+    [Fact]
+    public void Winget_Upgrade()
+    {
+        CommandCompleter.GetCompletions("winget upg")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("upgrade");
+    }
+
+    [Fact]
+    public void Winget_Upgrade_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget upgrade")
+            .Should().Contain(x => x.CompletionText == "--all")
+            .And.Contain(x => x.CompletionText == "--silent")
+            .And.Contain(x => x.CompletionText == "--interactive")
+            .And.Contain(x => x.CompletionText == "--include-unknown")
+            .And.Contain(x => x.CompletionText == "--include-pinned");
+    }
+
+    [Fact]
+    public void Winget_Uninstall()
+    {
+        CommandCompleter.GetCompletions("winget uni")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("uninstall");
+    }
+
+    [Fact]
+    public void Winget_Uninstall_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget uninstall")
+            .Should().Contain(x => x.CompletionText == "--silent")
+            .And.Contain(x => x.CompletionText == "--force")
+            .And.Contain(x => x.CompletionText == "--purge")
+            .And.Contain(x => x.CompletionText == "--preserve");
+    }
+
+    [Fact]
+    public void Winget_Search()
+    {
+        CommandCompleter.GetCompletions("winget sea")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("search");
+    }
+
+    [Fact]
+    public void Winget_Search_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget search")
+            .Should().Contain(x => x.CompletionText == "--name")
+            .And.Contain(x => x.CompletionText == "--id")
+            .And.Contain(x => x.CompletionText == "--tag")
+            .And.Contain(x => x.CompletionText == "--exact")
+            .And.Contain(x => x.CompletionText == "--count");
+    }
+
+    [Fact]
+    public void Winget_List()
+    {
+        CommandCompleter.GetCompletions("winget li")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("list");
+    }
+
+    [Fact]
+    public void Winget_List_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget list")
+            .Should().Contain(x => x.CompletionText == "--upgrade-available")
+            .And.Contain(x => x.CompletionText == "--include-unknown")
+            .And.Contain(x => x.CompletionText == "--source");
+    }
+
+    [Fact]
+    public void Winget_Show()
+    {
+        CommandCompleter.GetCompletions("winget sh")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("show");
+    }
+
+    [Fact]
+    public void Winget_Show_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget show")
+            .Should().Contain(x => x.CompletionText == "--name")
+            .And.Contain(x => x.CompletionText == "--id")
+            .And.Contain(x => x.CompletionText == "--versions")
+            .And.Contain(x => x.CompletionText == "--exact");
+    }
+
+    [Fact]
+    public void Winget_Source()
+    {
+        CommandCompleter.GetCompletions("winget sou")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("source");
+    }
+
+    [Fact]
+    public void Winget_Source_Subcommands()
+    {
+        CommandCompleter.GetCompletions("winget source")
+            .Should().Contain(x => x.CompletionText == "add")
+            .And.Contain(x => x.CompletionText == "list")
+            .And.Contain(x => x.CompletionText == "update")
+            .And.Contain(x => x.CompletionText == "remove")
+            .And.Contain(x => x.CompletionText == "reset")
+            .And.Contain(x => x.CompletionText == "export");
+    }
+
+    [Fact]
+    public void Winget_Pin()
+    {
+        CommandCompleter.GetCompletions("winget pi")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("pin");
+    }
+
+    [Fact]
+    public void Winget_Pin_Subcommands()
+    {
+        CommandCompleter.GetCompletions("winget pin")
+            .Should().Contain(x => x.CompletionText == "add")
+            .And.Contain(x => x.CompletionText == "remove")
+            .And.Contain(x => x.CompletionText == "list")
+            .And.Contain(x => x.CompletionText == "reset");
+    }
+
+    [Fact]
+    public void Winget_Export()
+    {
+        CommandCompleter.GetCompletions("winget exp")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("export");
+    }
+
+    [Fact]
+    public void Winget_Export_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget export")
+            .Should().Contain(x => x.CompletionText == "--output")
+            .And.Contain(x => x.CompletionText == "--source")
+            .And.Contain(x => x.CompletionText == "--include-versions");
+    }
+
+    [Fact]
+    public void Winget_Import()
+    {
+        CommandCompleter.GetCompletions("winget imp")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("import");
+    }
+
+    [Fact]
+    public void Winget_Import_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget import")
+            .Should().Contain(x => x.CompletionText == "--import-file")
+            .And.Contain(x => x.CompletionText == "--ignore-unavailable")
+            .And.Contain(x => x.CompletionText == "--ignore-versions");
+    }
+
+    [Fact]
+    public void Winget_Download()
+    {
+        CommandCompleter.GetCompletions("winget dow")
+            .Should().ContainSingle()
+            .Which.CompletionText.Should().Be("download");
+    }
+
+    [Fact]
+    public void Winget_Download_Parameters()
+    {
+        CommandCompleter.GetCompletions("winget download")
+            .Should().Contain(x => x.CompletionText == "--download-directory")
+            .And.Contain(x => x.CompletionText == "--id")
+            .And.Contain(x => x.CompletionText == "--version");
+    }
+
+    [Fact]
+    public void Winget_MultipleParameters()
+    {
+        CommandCompleter.GetCompletions("winget install --silent --")
+            .Should().Contain(x => x.CompletionText == "--scope")
+            .And.Contain(x => x.CompletionText == "--architecture")
+            .And.Contain(x => x.CompletionText == "--exact");
+    }
 }
