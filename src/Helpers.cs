@@ -53,14 +53,14 @@ public static class Helpers
         }
     }
 
-    public static IEnumerable<string> ExecuteCommand(string command)
+    public static IEnumerable<string> ExecuteCommand(string executable, string arguments = "")
     {
         using var process = new Process();
 
         process.StartInfo = new ProcessStartInfo
         {
-            FileName = "pwsh.exe",
-            Arguments = $"-NoProfile -NonInteractive -Command \"{command}\"",
+            FileName = executable,
+            Arguments = arguments,
             RedirectStandardOutput = true,
             UseShellExecute = false,
             CreateNoWindow = true,

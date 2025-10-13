@@ -91,7 +91,7 @@ public static class ScoopCommand
 
     private static IEnumerable<DynamicArgument> GetInstalledPackages()
     {
-        foreach (var line in Helpers.ExecuteCommand("scoop list"))
+        foreach (var line in Helpers.ExecuteCommand("scoop", "list"))
         {
             if (!string.IsNullOrWhiteSpace(line) &&
                 !line.StartsWith("Installed apps:") &&

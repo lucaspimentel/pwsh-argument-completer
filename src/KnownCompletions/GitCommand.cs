@@ -350,7 +350,7 @@ public static class GitCommand
 
     private static IEnumerable<DynamicArgument> GetBranches()
     {
-        foreach (var line in Helpers.ExecuteCommand("git branch --format='%(refname:short)'"))
+        foreach (var line in Helpers.ExecuteCommand("git", "branch --format='%(refname:short)'"))
         {
             var branch = line.Trim();
             if (!string.IsNullOrWhiteSpace(branch))
@@ -362,7 +362,7 @@ public static class GitCommand
 
     private static IEnumerable<DynamicArgument> GetRemotes()
     {
-        foreach (var line in Helpers.ExecuteCommand("git remote"))
+        foreach (var line in Helpers.ExecuteCommand("git", "remote"))
         {
             var remote = line.Trim();
             if (!string.IsNullOrWhiteSpace(remote))
@@ -374,7 +374,7 @@ public static class GitCommand
 
     private static IEnumerable<DynamicArgument> GetTags()
     {
-        foreach (var line in Helpers.ExecuteCommand("git tag"))
+        foreach (var line in Helpers.ExecuteCommand("git", "tag"))
         {
             var tag = line.Trim();
             if (!string.IsNullOrWhiteSpace(tag))
