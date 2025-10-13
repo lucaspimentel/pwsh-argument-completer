@@ -4,9 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a PowerShell argument completer written in C# that provides tab completion for various CLI tools (scoop, winget, az, azd, func, chezmoi, git, gh, VS Code). It's compiled to a native executable using NativeAOT for fast startup times, making it suitable as a PowerShell argument completer.
+This is a cross-platform PowerShell argument completer written in C# that provides tab completion for various CLI tools (git, gh, az, azd, func, chezmoi, VS Code, and Windows-only: scoop, winget). It's compiled to a native executable using NativeAOT for fast startup times, making it suitable as a PowerShell argument completer.
 
 The tool integrates with PowerShell via `Register-ArgumentCompleter -Native` and receives three arguments: `$wordToComplete`, `$commandAst`, and `$cursorPosition`.
+
+**Supported platforms:** Windows, Linux, macOS
 
 ## Build and Test Commands
 
@@ -22,10 +24,20 @@ dotnet test
 
 **Publish (native executable):**
 ```bash
+# Windows
 dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r win-x64 -o src/publish
+
+# Linux
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r linux-x64 -o src/publish
+
+# macOS (Intel)
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-x64 -o src/publish
+
+# macOS (Apple Silicon)
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-arm64 -o src/publish
 ```
 
-The native executable will be at `src/publish/pwsh-argument-completer.exe`.
+The native executable will be at `src/publish/pwsh-argument-completer` (or `.exe` on Windows).
 
 **Run tests with a specific filter:**
 ```bash
@@ -59,11 +71,11 @@ dotnet test --filter "FullyQualifiedName~ScoopCommand"
 - Each supported CLI tool has its own file (e.g., `ScoopCommand.cs`, `WingetCommand.cs`)
 - Azure tools are in `KnownCompletions/Azure/` subdirectory
 - Command definitions use C# collection expressions for clean, declarative syntax
-- Dynamic completions execute commands via `Helpers.ExecuteCommand()` which shells out to `pwsh.exe`
+- Dynamic completions execute commands via `Helpers.ExecuteCommand()` which executes commands directly (e.g., `git branch`, `scoop list`)
 
 **Helpers.cs**
 - Case-insensitive string comparison helpers using `ReadOnlySpan<char>`
-- `ExecuteCommand()`: Executes PowerShell commands to get dynamic completion data
+- `ExecuteCommand()`: Executes commands directly to get dynamic completion data (cross-platform, no PowerShell dependency)
 - Performance-optimized with `AggressiveInlining` for hot paths
 
 ### Tree-Walking Algorithm
@@ -91,6 +103,7 @@ The completer builds a tree of completion nodes. When parsing `scoop update bat`
 3. **Register the command**
    - Add the command to the switch statement in `CommandCompleter.GetCompletions()` (lines 25-39)
    - Format: `"commandname" => MyToolCommand.Create(),`
+   - If the command is Windows-only (like `scoop` or `winget`), add a platform guard: `"commandname" when OperatingSystem.IsWindows() => MyToolCommand.Create(),`
 
 4. **Add tests**
    - Add comprehensive tests in `test/CommandCompleterTests.cs`
@@ -104,12 +117,12 @@ The completer builds a tree of completion nodes. When parsing `scoop update bat`
 
 **For dynamic completions:**
 - Add a `DynamicArguments` property with a factory method that yields `DynamicArgument` instances
-- Use `Helpers.ExecuteCommand()` to run commands and parse output
+- Use `Helpers.ExecuteCommand(executable, arguments)` to run commands and parse output
 - Examples in the codebase:
-  - `scoop update` → lists installed scoop packages
-  - `git checkout` → lists git branches
-  - `git push/fetch` → lists git remotes
-  - `git tag` → lists git tags
+  - `scoop update` → lists installed scoop packages via `ExecuteCommand("scoop", "list")`
+  - `git checkout` → lists git branches via `ExecuteCommand("git", "branch --format='%(refname:short)'")`
+  - `git push/fetch` → lists git remotes via `ExecuteCommand("git", "remote")`
+  - `git tag` → lists git tags via `ExecuteCommand("git", "tag")`
 
 **Important: Parameter Alias Pattern**
 
@@ -257,7 +270,7 @@ new("update", "Update packages")
 
 private static IEnumerable<DynamicArgument> GetInstalledPackages()
 {
-    foreach (var line in Helpers.ExecuteCommand("mycommand list --short"))
+    foreach (var line in Helpers.ExecuteCommand("mycommand", "list --short"))
     {
         var packageName = line.Trim();
         if (!string.IsNullOrWhiteSpace(packageName))
@@ -271,10 +284,11 @@ private static IEnumerable<DynamicArgument> GetInstalledPackages()
 ## Project Configuration
 
 - **Target Framework:** .NET 9.0
-- **Output:** `pwsh-argument-completer.exe` (NativeAOT)
+- **Output:** `pwsh-argument-completer` (NativeAOT, `.exe` extension on Windows)
 - **Solution:** Uses Visual Studio `.slnx` format
 - **Project Name:** `PowerShellArgumentCompleter` (C# namespace)
 - **Assembly Name:** `pwsh-argument-completer` (output filename)
+- **Platforms:** Windows (win-x64), Linux (linux-x64), macOS (osx-x64, osx-arm64)
 
 ### NativeAOT Settings
 
@@ -312,25 +326,25 @@ CommandCompleter.GetCompletions("scoop up")
 Currently implemented completions with their completion level:
 
 ### Fully Implemented (with parameters and nested subcommands)
-- **winget** - Windows Package Manager
+- **git** - Version control with common subcommands and parameters (cross-platform)
+  - 🔄 Dynamic completions: branches, remotes, tags
+- **gh** - GitHub CLI with subcommands and parameters (cross-platform)
+- **tre** - Tree viewer with parameters and static arguments (cross-platform)
+- **lsd** - LSDeluxe with parameters and static arguments (cross-platform)
+- **dust** - Disk usage tool with parameters and static arguments (cross-platform)
+- **winget** - Windows Package Manager (Windows-only)
   - All major subcommands: install, upgrade, uninstall, search, list, show, export, import, download
   - Nested subcommands: source (add/list/update/remove/reset/export), pin (add/remove/list/reset)
   - Parameters with aliases (e.g., `-h`/`--silent`, `-i`/`--interactive`)
   - Static arguments for scope (user/machine), architecture (x86/x64/arm/arm64), installer-type
-- **git** - Version control with common subcommands and parameters
-  - 🔄 Dynamic completions: branches, remotes, tags
-- **gh** - GitHub CLI with subcommands and parameters
-- **tre** - Tree viewer with parameters and static arguments
-- **lsd** - LSDeluxe with parameters and static arguments
-- **dust** - Disk usage tool with parameters and static arguments
 
 ### Basic Implementation (subcommands only, parameters needed)
-- **scoop** - Package manager for Windows
+- **az** - Azure CLI (subcommands only, cross-platform)
+- **azd** - Azure Developer CLI (subcommands only, cross-platform)
+- **func** - Azure Functions Core Tools (subcommands only, cross-platform)
+- **chezmoi** - Dotfiles manager (subcommands only, cross-platform)
+- **code** - VS Code (basic parameters, cross-platform)
+- **scoop** - Package manager (Windows-only)
   - 🔄 Dynamic completions: installed packages for `scoop update`
-- **az** - Azure CLI (subcommands only)
-- **azd** - Azure Developer CLI (subcommands only)
-- **func** - Azure Functions Core Tools (subcommands only)
-- **chezmoi** - Dotfiles manager (subcommands only)
-- **code** - VS Code (basic parameters)
 
-**Note:** When adding any new command, remember to also register it in `~/.config/powershell/Microsoft.PowerShell_profile.ps1`. See README.md for the list of future command candidates.
+**Note:** When adding any new command, remember to also register it in the PowerShell module (`module/PwshArgumentCompleter.psm1`). If the command is platform-specific, add appropriate platform guards. See README.md for the list of future command candidates.

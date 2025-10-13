@@ -9,20 +9,20 @@ This tool provides intelligent tab completion for various command-line tools in 
 ### Supported Commands
 
 **Fully supported with parameters and nested subcommands:**
-- **winget** - Windows Package Manager (install, upgrade, uninstall, search, list, show, etc.)
 - **git** - Version control (add, commit, push, pull, status, branch, checkout, etc.)
 - **gh** - GitHub CLI (pr, issue, repo, auth, etc.)
 - **tre** - Tree viewer with improved output
 - **lsd** - LSDeluxe, modern `ls` replacement
 - **dust** - Disk usage analyzer
+- **winget** - Windows Package Manager (Windows only)
 
 **Basic support (subcommands only, parameters coming soon):**
-- **scoop** - Package manager for Windows
 - **az** - Azure CLI
 - **azd** - Azure Developer CLI
 - **func** - Azure Functions Core Tools
 - **chezmoi** - Dotfiles manager
 - **code** - VS Code
+- **scoop** - Package manager (Windows only)
 
 ### Features
 
@@ -41,38 +41,64 @@ This tool provides intelligent tab completion for various command-line tools in 
 
 ### 1. Build the native executable
 
-```powershell
+```bash
 # Clone the repository
 git clone https://github.com/lucaspimentel/pwsh-argument-completer.git
 cd pwsh-argument-completer
 
 # Publish as a native executable using NativeAOT
+# Windows:
 dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r win-x64
 
-# The native executable will be at: src/bin/Release/net9.0/win-x64/publish/pwsh-argument-completer.exe
+# Linux:
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r linux-x64
+
+# macOS (Intel):
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-x64
+
+# macOS (Apple Silicon):
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-arm64
 ```
 
 > **Note:** Using `dotnet publish` with NativeAOT produces a self-contained native executable with no runtime dependencies and faster startup times. Regular `dotnet build` produces a managed executable that requires the .NET runtime.
 
-### 2. Copy to your PATH (optional but recommended)
+### 2. Install the files
 
-For easier access, copy the executable to a directory in your PATH:
+Copy the executable and PowerShell module to your local directories:
 
 ```powershell
-# Example: copy to a local bin directory
+# Windows - Copy the executable to your PATH
 Copy-Item src/bin/Release/net9.0/win-x64/publish/pwsh-argument-completer.exe ~/.local/bin/
-```
 
-Or add the build directory to your PATH.
+# Linux/macOS - Copy the executable to your PATH (adjust RID as needed)
+# cp src/bin/Release/net9.0/linux-x64/publish/pwsh-argument-completer ~/.local/bin/
+
+# Copy the PowerShell module (all platforms)
+Copy-Item module/* ~/.local/lib/PwshArgumentCompleter/ -Recurse -Force
+```
 
 ### 3. Add to your PowerShell profile
 
-Add the following to your PowerShell profile (`$PROFILE`):
+Add a single line to your PowerShell profile (`$PROFILE`):
+
+```powershell
+Import-Module ~/.local/lib/PwshArgumentCompleter/PwshArgumentCompleter.psd1
+```
+
+**Alternative (manual registration):** If you prefer not to use the module, you can manually register the completions:
+
+<details>
+<summary>Click to expand manual registration code</summary>
 
 ```powershell
 # Custom PowerShell parameter completion
 if (Get-Command 'pwsh-argument-completer' -ErrorAction SilentlyContinue) {
-   $commands = @('git', 'scoop', 'winget', 'code', 'az', 'azd', 'func', 'chezmoi', 'gh', 'tre', 'lsd', 'dust')
+   $commands = @('git', 'code', 'az', 'azd', 'func', 'chezmoi', 'gh', 'tre', 'lsd', 'dust')
+
+   # Add Windows-specific commands
+   if ($IsWindows -or $PSVersionTable.PSVersion.Major -lt 6) {
+      $commands += @('scoop', 'winget')
+   }
 
    foreach ($command in $commands) {
       if (Get-Command $command -ErrorAction SilentlyContinue) {
@@ -91,6 +117,8 @@ if (Get-Command 'pwsh-argument-completer' -ErrorAction SilentlyContinue) {
    Remove-Item Variable:commands -Force -ErrorAction SilentlyContinue
 }
 ```
+
+</details>
 
 ### 4. Reload your profile
 
@@ -278,8 +306,16 @@ When adding a new command, remember to also register it in your PowerShell profi
 ## Requirements
 
 - **.NET 9.0 SDK** (for building)
-- **PowerShell 5.1+** or **PowerShell Core 7+** (for using)
-- **Windows** (currently Windows-only, but could be adapted for Linux/macOS)
+- **PowerShell 5.1+** (Windows) or **PowerShell Core 7+** (all platforms)
+- **Supported platforms:** Windows, Linux, macOS
+
+## Future Features
+
+### Distribution & Installation
+- **Scoop manifest** - Create a Scoop package using the `psmodule` installer type to handle both the executable and PowerShell module installation automatically (`scoop install pwsh-argument-completer`)
+- **PowerShell Gallery** - Publish to PSGallery for easy installation via `Install-Module PwshArgumentCompleter`
+- **Automated install script** - One-liner installation from GitHub releases
+- **Homebrew formula** - macOS/Linux package manager support
 
 ## License
 
