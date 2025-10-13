@@ -22,11 +22,13 @@ public static class CommandCompleter
         Span<char> mainCommand = stackalloc char[length];
         commandLine[..length].ToLowerInvariant(mainCommand);
 
+        var isWindows = OperatingSystem.IsWindows();
+
         ICompletion? currentCompletion = mainCommand switch
         {
-            "scoop" => ScoopCommand.Create(),
+            "scoop" when isWindows => ScoopCommand.Create(),
+            "winget" when isWindows => WingetCommand.Create(),
             "code" => VsCodeCommand.Create(),
-            "winget" => WingetCommand.Create(),
             "chezmoi" => ChezmoiCommand.Create(),
             "git" => GitCommand.Create(),
             "gh" => GhCommand.Create(),
