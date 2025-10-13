@@ -188,6 +188,78 @@ The tool is optimized for speed:
 
 Typical completion times are <10ms on modern hardware.
 
+## Future Command Candidates
+
+Want to help expand support? Here are commands that would benefit from completions, roughly prioritized by usefulness:
+
+### High Priority
+
+**Development Tools:**
+1. **dotnet** - .NET SDK (most used command in PowerShell history analysis)
+   - Subcommands: `build`, `publish`, `restore`, `run`, `test`, `add`, `remove`, `new`
+   - Already has some native completion but could be enhanced
+2. **npm** - Node package manager
+   - Subcommands: `install`, `run`, `test`, `publish`, `init`, `update`, `uninstall`
+   - Parameters: `--save-dev`, `--global`, `--production`, `--force`
+3. **cargo** - Rust package manager
+   - Subcommands: `build`, `run`, `test`, `publish`, `install`, `update`, `check`
+   - Parameters: `--release`, `--target`, `--features`, `--all-features`
+4. **docker** - Container management
+   - Subcommands: `build`, `run`, `ps`, `images`, `pull`, `push`, `exec`, `logs`
+   - Parameters: `--file`, `--tag`, `--detach`, `--volume`, `--env`, `--port`
+5. **python** - Python interpreter
+   - Modules: `-m venv`, `-m pip`, `-m pytest`, `-m http.server`
+   - Parameters: `-c`, `-m`, `-u`, `-O`, `-B`
+
+**Modern CLI Tools (from scoop):**
+- **bat** - Cat with syntax highlighting (`--language`, `--theme`, `--style`, `--line-range`)
+- **fd** - Modern find (`--type`, `--extension`, `--hidden`, `--max-depth`, `--exec`)
+- **ripgrep** (`rg`) - Fast grep (`--type`, `--glob`, `--ignore-case`, `-A`, `-B`, `-C`)
+- **jq** - JSON processor (complex but powerful filter language)
+- **zoxide** (`z`) - Smart cd with history (`add`, `remove`, `query`, `import`)
+
+**Security & Auth:**
+- **1password-cli** (`op`) - 1Password CLI (`item`, `document`, `vault`, `user`, `signin`)
+- **aws-vault** - AWS credential manager (`add`, `exec`, `list`, `login`, `remove`)
+
+### Medium Priority
+
+**System Tools:**
+- **podman** - Docker alternative (similar commands to docker)
+- **gsudo** - Sudo for Windows (`config`, `cache`, `status`)
+- **ssh** - SSH client (could complete hostnames from SSH config)
+
+**Development Utilities:**
+- **git-machete** - Git branch management (`add`, `delete`, `discover`, `status`, `traverse`)
+- **delta** - Git diff viewer (`--side-by-side`, `--line-numbers`, `--theme`)
+- **dive** - Docker image explorer (`--ci`, `--source`)
+
+**Modern Replacements:**
+- **bottom** (`btm`) - System monitor (`--basic`, `--tree`, `--group`)
+- **broot** - Directory navigator (`--hidden`, `--sizes`, `--dates`)
+- **duf** - Disk usage (`--all`, `--json`, `--only`)
+- **procs** - Process viewer (`--and`, `--or`, `--tree`, `--watch`)
+- **glow** - Markdown renderer (`--pager`, `--style`, `--width`)
+
+**Editors:**
+- **neovim** (`nvim`) - Text editor (`-o`, `-O`, `-p`, `--cmd`, `--startuptime`)
+- **helix** (`hx`) - Modern text editor (`--grammar`, `--working-dir`, `--config`)
+- **micro** - Terminal text editor
+
+### Lower Priority
+
+**Specialized/Niche:**
+- **7z** - Archive tool (has native completion but could be enhanced)
+- **ffmpeg** - Media processing (extremely complex, many parameters)
+- **gt** - Graphite stacked diffs
+- **xh** - HTTP client (like httpie)
+- **kalk** - Calculator/scripting language
+- **speedtest-cli** - Internet speed test
+
+**Interactive/GUI (less benefit):**
+- **lazygit** - Git TUI (interactive, minimal benefit)
+- **fzf** - Fuzzy finder (interactive, minimal benefit)
+
 ## Contributing
 
 Contributions are welcome! See [CLAUDE.md](CLAUDE.md) for detailed information about the architecture and how to add support for new commands.
@@ -200,6 +272,8 @@ Contributions are welcome! See [CLAUDE.md](CLAUDE.md) for detailed information a
 4. Add tests in `test/CommandCompleterTests.cs`
 5. Run tests: `dotnet test`
 6. Submit a pull request
+
+When adding a new command, remember to also register it in your PowerShell profile (`$PROFILE`).
 
 ## Requirements
 
