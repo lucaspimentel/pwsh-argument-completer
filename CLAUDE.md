@@ -75,11 +75,37 @@ The completer builds a tree of completion nodes. When parsing `scoop update bat`
 
 ### Adding New Commands
 
-To add a new command completer:
-1. Create a new file in `src/KnownCompletions/` (e.g., `MyToolCommand.cs`)
-2. Implement a static `Create()` method returning a `Command` with SubCommands/Parameters
-3. Add the command to the switch statement in `CommandCompleter.GetCompletions()` (line 22-32)
-4. For dynamic completions, add a `DynamicArguments` property with a factory method
+**Step-by-step process for implementing a new command:**
+
+1. **Gather command documentation**
+   - Run `<command> --help` to get main subcommands
+   - For each subcommand, run `<command> <subcommand> --help` to get parameters
+   - Note all short/long aliases (e.g., `-h`/`--silent`)
+   - Identify parameters with static argument values (e.g., `--scope user|machine`)
+
+2. **Create the command file**
+   - Create a new file in `src/KnownCompletions/` (e.g., `MyToolCommand.cs`)
+   - Use the help output as comments at the top of the file for reference
+   - Implement a static `Create()` method returning a `Command` with SubCommands/Parameters
+
+3. **Register the command**
+   - Add the command to the switch statement in `CommandCompleter.GetCompletions()` (lines 25-39)
+   - Format: `"commandname" => MyToolCommand.Create(),`
+
+4. **Add tests**
+   - Add comprehensive tests in `test/CommandCompleterTests.cs`
+   - Test subcommand completion, parameter suggestions, and static arguments
+   - Test prefix matching (e.g., `"command sub"` should complete to `"subcommand"`)
+
+5. **Verify**
+   - Run `dotnet test --filter "FullyQualifiedName~MyTool"` to run your tests
+   - Build with `dotnet build -c Release`
+   - Test manually: `src/bin/Release/net9.0/pwsh-argument-completer.exe "" "command " 8`
+
+**For dynamic completions:**
+- Add a `DynamicArguments` property with a factory method that yields `DynamicArgument` instances
+- Use `Helpers.ExecuteCommand()` to run commands and parse output
+- Example: installed packages, available plugins, configured sources
 
 **Important: Parameter Alias Pattern**
 
@@ -141,6 +167,103 @@ private static IEnumerable<DynamicArgument> GetInstalledPackages()
 - `Helpers.FindEquals()` checks both `CompletionText` and `Alias` when matching user input
 - Result: cleaner completion lists with no duplicates, but both forms still work when typed
 
+### Quick Reference: Common Patterns
+
+**Basic command with subcommands:**
+```csharp
+public static Command Create()
+{
+    return new Command("mycommand")
+    {
+        SubCommands =
+        [
+            new("install", "Install a package"),
+            new("remove", "Remove a package"),
+            new("list", "List packages")
+        ]
+    };
+}
+```
+
+**Command with parameters:**
+```csharp
+new("install", "Install a package")
+{
+    Parameters =
+    [
+        new("--force", "Force installation (-f)") { Alias = "-f" },
+        new("--quiet", "Quiet mode (-q)") { Alias = "-q" }
+    ]
+}
+```
+
+**Parameters with static values:**
+```csharp
+new("--scope", "Installation scope")
+{
+    StaticArguments =
+    [
+        new("user", "User scope"),
+        new("machine", "Machine scope")
+    ]
+}
+```
+
+**Parameters with nested arguments:**
+```csharp
+new("--color", "Color mode (-c)")
+{
+    Alias = "-c",
+    StaticArguments =
+    [
+        new("auto", "Automatic color detection"),
+        new("always", "Always use colors"),
+        new("never", "Never use colors")
+    ]
+}
+```
+
+**Nested subcommands:**
+```csharp
+new("config", "Configuration management")
+{
+    SubCommands =
+    [
+        new("get", "Get configuration value"),
+        new("set", "Set configuration value"),
+        new("list", "List all configuration")
+    ],
+    Parameters =
+    [
+        new("--global", "Use global configuration (-g)") { Alias = "-g" }
+    ]
+}
+```
+
+**Dynamic completions:**
+```csharp
+new("update", "Update packages")
+{
+    Parameters =
+    [
+        new("--all", "Update all packages")
+    ],
+    DynamicArguments = GetInstalledPackages
+}
+
+private static IEnumerable<DynamicArgument> GetInstalledPackages()
+{
+    foreach (var line in Helpers.ExecuteCommand("mycommand list --short"))
+    {
+        var packageName = line.Trim();
+        if (!string.IsNullOrWhiteSpace(packageName))
+        {
+            yield return new DynamicArgument(packageName);
+        }
+    }
+}
+```
+
 ## Project Configuration
 
 - **Target Framework:** .NET 9.0
@@ -182,19 +305,27 @@ CommandCompleter.GetCompletions("scoop up")
 
 ## Supported Commands
 
-Currently implemented completions:
-- **scoop** - Package manager for Windows
+Currently implemented completions with their completion level:
+
+### Fully Implemented (with parameters and nested subcommands)
 - **winget** - Windows Package Manager
-- **az** - Azure CLI
-- **azd** - Azure Developer CLI
-- **func** - Azure Functions Core Tools
-- **chezmoi** - Dotfiles manager
-- **git** - Version control
-- **gh** - GitHub CLI
-- **code** - VS Code
-- **tre** - Tree viewer with improved output
-- **lsd** - LSDeluxe, modern `ls` replacement with colors and icons
-- **dust** - Modern `du` replacement for disk usage analysis
+  - All major subcommands: install, upgrade, uninstall, search, list, show, export, import, download
+  - Nested subcommands: source (add/list/update/remove/reset/export), pin (add/remove/list/reset)
+  - Parameters with aliases (e.g., `-h`/`--silent`, `-i`/`--interactive`)
+  - Static arguments for scope (user/machine), architecture (x86/x64/arm/arm64), installer-type
+- **git** - Version control with common subcommands and parameters
+- **gh** - GitHub CLI with subcommands and parameters
+- **tre** - Tree viewer with parameters and static arguments
+- **lsd** - LSDeluxe with parameters and static arguments
+- **dust** - Disk usage tool with parameters and static arguments
+
+### Basic Implementation (subcommands only, parameters needed)
+- **scoop** - Package manager for Windows (has dynamic completions for installed packages)
+- **az** - Azure CLI (subcommands only)
+- **azd** - Azure Developer CLI (subcommands only)
+- **func** - Azure Functions Core Tools (subcommands only)
+- **chezmoi** - Dotfiles manager (subcommands only)
+- **code** - VS Code (basic parameters)
 
 ## Future Command Candidates
 
