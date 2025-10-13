@@ -418,4 +418,4 @@ Unsupported CLI tools from current scoop installation (identified 2025-10-13):
 - **lazygit** - Git TUI (interactive, less benefit from completion)
 - **fzf** - Fuzzy finder (interactive, less benefit from completion)
 
-**Note:** When adding any new command, remember to also register it in `C:\Users\Lucas.Pimentel\.config\powershell\Microsoft.PowerShell_profile.ps1`
+**Note:** When adding any new command, remember to also register it in `~/.config/powershell/Microsoft.PowerShell_profile.ps1`
