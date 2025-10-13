@@ -229,3 +229,56 @@ Based on PowerShell history analysis, these commands are recommended for future 
 - **xh** (132+ uses) - HTTP client, could complete HTTP methods
 - **fzf** (48+ uses) - Interactive, less benefit from completion
 - when adding support for a new command-line tool, also add it to C:\Users\Lucas.Pimentel\.config\powershell\Microsoft.PowerShell_profile.ps1
+
+## What's Next
+
+Unsupported CLI tools from current scoop installation (identified 2025-10-13):
+
+### High-Value Candidates
+
+**Most Useful Additions:**
+- **bat** - Modern cat replacement with syntax highlighting (parameters: `-l`, `--language`, `--theme`, `--style`)
+- **fd** - Modern find replacement (parameters: `-t`, `--type`, `-e`, `--extension`, `-d`, `--max-depth`, `-H`, `--hidden`)
+- **jq** - JSON processor (filters, built-in functions)
+- **ripgrep** (`rg`) - Fast grep alternative (parameters: `-i`, `-t`, `--type`, `-g`, `--glob`, `-A`, `-B`, `-C`)
+- **zoxide** (`z`) - Smart directory jumper (subcommands: `add`, `remove`, `query`)
+- **delta** - Git diff viewer (parameters: `--side-by-side`, `--line-numbers`, `--theme`)
+- **gsudo** - Sudo for Windows (subcommands: `config`, `cache`)
+- **aws-vault** - AWS credential manager (subcommands: `add`, `exec`, `list`, `login`, `remove`)
+
+**Development Tools:**
+- **1password-cli** (`op`) - 1Password CLI (subcommands: `item`, `document`, `user`, `vault`)
+- **dive** - Docker image explorer (parameters: `--ci`, `--source`)
+- **git-machete** - Git branch management (subcommands: `add`, `delete`, `discover`, `status`, `traverse`)
+- **neovim** (`nvim`) - Text editor (parameters: `-o`, `-O`, `-p`, `--cmd`)
+- **helix** (`hx`) - Modern text editor (parameters: `-g`, `--grammar`, `-w`, `--working-dir`)
+- **micro** - Terminal text editor
+
+**System Utilities:**
+- **bottom** (`btm`) - System monitor (parameters: `-b`, `--basic`, `-t`, `--tree`, `-g`, `--group`)
+- **broot** - Modern tree/directory navigator (parameters: `-h`, `--hidden`, `-s`, `--sizes`)
+- **duf** - Modern df replacement (parameters: `-a`, `--all`, `-j`, `--json`, `--only`)
+- **procs** - Modern ps replacement (parameters: `-a`, `--and`, `-o`, `--or`, `--tree`)
+- **glow** - Markdown renderer (parameters: `-p`, `--pager`, `-s`, `--style`)
+
+**Specialized Tools:**
+- **kalk** - Calculator/scripting language
+- **ffmpeg** - Video/audio processing (complex, many parameters)
+- **speedtest-cli** - Internet speed test
+
+### Lower Priority
+
+**System/Archive Tools:**
+- **7zip** - Archive manager (already has good native completion)
+- **nuget** - .NET package manager (parameters: `install`, `list`, `push`, `sources`)
+- **scoop-search** - Extended scoop search
+
+**Utilities:**
+- **dark** - Dark mode toggler
+- **less** - Pager (interactive)
+- **mediainfo** - Media file info
+- **tesseract** - OCR engine
+- **lazygit** - Git TUI (interactive, less benefit from completion)
+- **fzf** - Fuzzy finder (interactive, less benefit from completion)
+
+**Note:** When adding any new command, remember to also register it in `C:\Users\Lucas.Pimentel\.config\powershell\Microsoft.PowerShell_profile.ps1`
