@@ -1,10 +1,12 @@
 $ErrorActionPreference = 'SilentlyContinue'
 
-# Find the pwsh-argument-completer executable
-$completerPath = Get-Command 'pwsh-argument-completer' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+# Find the pwsh-argument-completer executable in the module directory
+$moduleDirectory = $PSScriptRoot
+$executableName = if ($IsWindows -or $PSVersionTable.PSVersion.Major -lt 6) { 'pwsh-argument-completer.exe' } else { 'pwsh-argument-completer' }
+$completerPath = Join-Path $moduleDirectory $executableName
 
-if (-not $completerPath) {
-    Write-Warning "pwsh-argument-completer not found in PATH. Tab completion will not be registered."
+if (-not (Test-Path $completerPath)) {
+    Write-Warning "pwsh-argument-completer not found at '$completerPath'. Tab completion will not be registered."
     return
 }
 
@@ -21,7 +23,7 @@ foreach ($command in $commands) {
         Register-ArgumentCompleter -Native -CommandName $command -ScriptBlock {
             param($wordToComplete, $commandAst, $cursorPosition)
 
-            pwsh-argument-completer "$wordToComplete" "$($commandAst.ToString())" "$cursorPosition" | ForEach-Object {
+            & $completerPath "$wordToComplete" "$($commandAst.ToString())" "$cursorPosition" | ForEach-Object {
                 $parts = $_.Split('|')
                 [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $parts[1])
             }
