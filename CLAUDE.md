@@ -22,7 +22,18 @@ dotnet build
 dotnet test
 ```
 
-**Publish (native executable):**
+**Install (automated):**
+```bash
+./install.ps1
+```
+
+The automated installation script (`install.ps1`) will:
+- Detect your platform automatically (Windows, macOS Intel/ARM, Linux)
+- Build the native executable for the appropriate runtime identifier
+- Install both the executable and module files to `~/.local/pwsh-modules/PwshArgumentCompleter`
+- Provide instructions for adding the module to your PowerShell profile
+
+**Publish (manual):**
 ```bash
 # Windows
 dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r win-x64 -o src/publish
@@ -77,6 +88,13 @@ dotnet test --filter "FullyQualifiedName~ScoopCommand"
 - Case-insensitive string comparison helpers using `ReadOnlySpan<char>`
 - `ExecuteCommand()`: Executes commands directly to get dynamic completion data (cross-platform, no PowerShell dependency)
 - Performance-optimized with `AggressiveInlining` for hot paths
+
+**PowerShell Module (`module/`)**
+- `PwshArgumentCompleter.psm1`: PowerShell module that registers argument completers for supported commands
+- Loads the executable from the module directory (no PATH dependency)
+- Platform-aware: automatically detects Windows vs Unix and uses appropriate executable name
+- Registers completers only for commands that are actually installed on the system
+- Self-contained: executable is bundled with module files for easy distribution
 
 ### Tree-Walking Algorithm
 

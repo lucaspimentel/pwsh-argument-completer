@@ -39,7 +39,37 @@ This tool provides intelligent tab completion for various command-line tools in 
 
 ## Installation
 
-### 1. Build the native executable
+### Automated Installation (Recommended)
+
+The easiest way to install is using the automated installation script:
+
+```powershell
+# Clone the repository
+git clone https://github.com/lucaspimentel/pwsh-argument-completer.git
+cd pwsh-argument-completer
+
+# Run the installation script
+./install.ps1
+```
+
+The script will:
+- Automatically detect your platform (Windows, macOS Intel/ARM, Linux)
+- Build the native executable with NativeAOT for fast startup
+- Install the module to `~/.local/pwsh-modules/PwshArgumentCompleter`
+- Provide instructions for adding the module to your PowerShell profile
+
+After installation, add this line to your PowerShell profile (`$PROFILE`):
+
+```powershell
+Import-Module ~/.local/pwsh-modules/PwshArgumentCompleter/PwshArgumentCompleter.psd1
+```
+
+### Manual Installation
+
+<details>
+<summary>Click to expand manual installation instructions</summary>
+
+#### 1. Build the native executable
 
 ```bash
 # Clone the repository
@@ -48,83 +78,52 @@ cd pwsh-argument-completer
 
 # Publish as a native executable using NativeAOT
 # Windows:
-dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r win-x64
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r win-x64 -o src/publish
 
 # Linux:
-dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r linux-x64
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r linux-x64 -o src/publish
 
 # macOS (Intel):
-dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-x64
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-x64 -o src/publish
 
 # macOS (Apple Silicon):
-dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-arm64
+dotnet publish src/PowerShellArgumentCompleter.csproj -c Release -r osx-arm64 -o src/publish
 ```
 
 > **Note:** Using `dotnet publish` with NativeAOT produces a self-contained native executable with no runtime dependencies and faster startup times. Regular `dotnet build` produces a managed executable that requires the .NET runtime.
 
-### 2. Install the files
-
-Copy the executable and PowerShell module to your local directories:
+#### 2. Install the module
 
 ```powershell
-# Windows - Copy the executable to your PATH
-Copy-Item src/bin/Release/net9.0/win-x64/publish/pwsh-argument-completer.exe ~/.local/bin/
+# Create the module directory
+$installDir = "~/.local/pwsh-modules/PwshArgumentCompleter"
+New-Item -ItemType Directory -Path $installDir -Force
 
-# Linux/macOS - Copy the executable to your PATH (adjust RID as needed)
-# cp src/bin/Release/net9.0/linux-x64/publish/pwsh-argument-completer ~/.local/bin/
+# Copy the executable (adjust path based on your platform)
+Copy-Item src/publish/pwsh-argument-completer* $installDir/
 
-# Copy the PowerShell module (all platforms)
-Copy-Item module/* ~/.local/lib/PwshArgumentCompleter/ -Recurse -Force
+# Copy the module files
+Copy-Item module/PwshArgumentCompleter.psm1 $installDir/
+Copy-Item module/PwshArgumentCompleter.psd1 $installDir/
 ```
 
-### 3. Add to your PowerShell profile
+#### 3. Add to your PowerShell profile
 
-Add a single line to your PowerShell profile (`$PROFILE`):
-
-```powershell
-Import-Module ~/.local/lib/PwshArgumentCompleter/PwshArgumentCompleter.psd1
-```
-
-**Alternative (manual registration):** If you prefer not to use the module, you can manually register the completions:
-
-<details>
-<summary>Click to expand manual registration code</summary>
+Add this line to your PowerShell profile (`$PROFILE`):
 
 ```powershell
-# Custom PowerShell parameter completion
-if (Get-Command 'pwsh-argument-completer' -ErrorAction SilentlyContinue) {
-   $commands = @('git', 'code', 'az', 'azd', 'func', 'chezmoi', 'gh', 'tre', 'lsd', 'dust')
-
-   # Add Windows-specific commands
-   if ($IsWindows -or $PSVersionTable.PSVersion.Major -lt 6) {
-      $commands += @('scoop', 'winget')
-   }
-
-   foreach ($command in $commands) {
-      if (Get-Command $command -ErrorAction SilentlyContinue) {
-         Register-ArgumentCompleter -Native -CommandName $command -ScriptBlock {
-            param($wordToComplete, $commandAst, $cursorPosition)
-
-            pwsh-argument-completer "$wordToComplete" "$($commandAst.ToString())" "$cursorPosition" | ForEach-Object {
-               $parts = $_.Split('|')
-               [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $parts[1])
-            }
-         }
-      }
-   }
-
-   Remove-Item Variable:command -Force -ErrorAction SilentlyContinue
-   Remove-Item Variable:commands -Force -ErrorAction SilentlyContinue
-}
+Import-Module ~/.local/pwsh-modules/PwshArgumentCompleter/PwshArgumentCompleter.psd1
 ```
 
 </details>
 
-### 4. Reload your profile
+Then reload your profile:
 
 ```powershell
 . $PROFILE
 ```
+
+> **Note:** The module automatically finds the executable in the module directory - no need to add it to your PATH.
 
 ## Usage
 
@@ -312,9 +311,10 @@ When adding a new command, remember to also register it in your PowerShell profi
 ## Future Features
 
 ### Distribution & Installation
+- ✅ **Automated install script** - `install.ps1` script automates building and installing the module
 - **Scoop manifest** - Create a Scoop package using the `psmodule` installer type to handle both the executable and PowerShell module installation automatically (`scoop install pwsh-argument-completer`)
 - **PowerShell Gallery** - Publish to PSGallery for easy installation via `Install-Module PwshArgumentCompleter`
-- **Automated install script** - One-liner installation from GitHub releases
+- **GitHub releases** - Publish pre-built binaries for each platform
 - **Homebrew formula** - macOS/Linux package manager support
 
 ## License
