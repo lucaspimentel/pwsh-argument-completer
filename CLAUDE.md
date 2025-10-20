@@ -82,11 +82,11 @@ dotnet test --filter "FullyQualifiedName~ScoopCommand"
 - Each supported CLI tool has its own file (e.g., `ScoopCommand.cs`, `WingetCommand.cs`)
 - Azure tools are in `KnownCompletions/Azure/` subdirectory
 - Command definitions use C# collection expressions for clean, declarative syntax
-- Dynamic completions execute commands via `Helpers.ExecuteCommand()` which executes commands directly (e.g., `git branch`, `scoop list`)
+- Dynamic completions execute commands via `Helpers.ExecuteCommand()` which runs commands through PowerShell (e.g., `git branch`, `scoop list`)
 
 **Helpers.cs**
 - Case-insensitive string comparison helpers using `ReadOnlySpan<char>`
-- `ExecuteCommand()`: Executes commands directly to get dynamic completion data (cross-platform, no PowerShell dependency)
+- `ExecuteCommand()`: Executes commands via PowerShell to get dynamic completion data (ensures commands in PowerShell's PATH are found)
 - Performance-optimized with `AggressiveInlining` for hot paths
 
 **PowerShell Module (`module/`)**
@@ -136,6 +136,7 @@ The completer builds a tree of completion nodes. When parsing `scoop update bat`
 **For dynamic completions:**
 - Add a `DynamicArguments` property with a factory method that yields `DynamicArgument` instances
 - Use `Helpers.ExecuteCommand(executable, arguments)` to run commands and parse output
+- Commands are executed via PowerShell to ensure they're found in PowerShell's PATH (important for scoop-installed tools)
 - Examples in the codebase:
   - `scoop update` → lists installed scoop packages via `ExecuteCommand("scoop", "list")`
   - `git checkout` → lists git branches via `ExecuteCommand("git", "branch --format='%(refname:short)'")`
@@ -331,6 +332,22 @@ CommandCompleter.GetCompletions("scoop up")
     .Which.CompletionText.Should().Be("update");
 ```
 
+**Testing dynamic completions locally:**
+
+Some tests for dynamic completions (e.g., scoop package lists, git branches) are skipped by default because they require specific packages/state to be installed. When testing locally, you can temporarily remove the `Skip` attribute from these tests:
+
+```csharp
+// In test/CommandCompleterTests.cs, change:
+[Fact(Skip = "Requires scoop to be installed with bat, bottom, and broot packages")]
+public void Scoop_Update_b() { ... }
+
+// To:
+[Fact]
+public void Scoop_Update_b() { ... }
+```
+
+**Important:** Do not commit the unskipped tests, as they will fail in CI/CD environments. The Skip attribute must remain in git.
+
 ## Important Notes
 
 - All string comparisons are **case-insensitive**
@@ -355,6 +372,9 @@ Currently implemented completions with their completion level:
   - Nested subcommands: source (add/list/update/remove/reset/export), pin (add/remove/list/reset)
   - Parameters with aliases (e.g., `-h`/`--silent`, `-i`/`--interactive`)
   - Static arguments for scope (user/machine), architecture (x86/x64/arm/arm64), installer-type
+- **scoop** - Package manager (Windows-only)
+  - All major subcommands with parameters
+  - 🔄 Dynamic completions: installed packages for `scoop update`, `scoop uninstall`, `scoop cleanup`, `scoop hold`, `scoop unhold`, and `scoop reset`
 
 ### Basic Implementation (subcommands only, parameters needed)
 - **az** - Azure CLI (subcommands only, cross-platform)
@@ -362,8 +382,5 @@ Currently implemented completions with their completion level:
 - **func** - Azure Functions Core Tools (subcommands only, cross-platform)
 - **chezmoi** - Dotfiles manager (subcommands only, cross-platform)
 - **code** - VS Code (basic parameters, cross-platform)
-- **scoop** - Package manager (Windows-only)
-  - 🔄 Dynamic completions: installed packages for `scoop update`, `scoop uninstall`, `scoop cleanup`, `scoop hold`, `scoop unhold`, and `scoop reset`
-  - Parameters with aliases for common commands
 
 **Note:** When adding any new command, remember to also register it in the PowerShell module (`module/PwshArgumentCompleter.psm1`). If the command is platform-specific, add appropriate platform guards. See README.md for the list of future command candidates.

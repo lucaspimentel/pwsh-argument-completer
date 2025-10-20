@@ -30,6 +30,7 @@ public class CommandCompleterTests
                         .Which.CompletionText.Should().Be("update");
     }
 
+    // NOTE: You can temporarily remove the Skip attribute to test locally if you have scoop packages installed
     [Fact(Skip = "Requires scoop to be installed with specific packages")]
     public void Scoop_Update_All()
     {
@@ -38,6 +39,7 @@ public class CommandCompleterTests
                         .And.ContainSingle(x => x.CompletionText == "*");
     }
 
+    // NOTE: You can temporarily remove the Skip attribute to test locally if you have zoxide installed
     [Fact(Skip = "Requires scoop to be installed with zoxide package")]
     public void Scoop_Update_z()
     {
@@ -46,6 +48,7 @@ public class CommandCompleterTests
                         .Which.CompletionText.Should().Be("zoxide");
     }
 
+    // NOTE: You can temporarily remove the Skip attribute to test locally if you have these packages installed
     [Fact(Skip = "Requires scoop to be installed with bat, bottom, and broot packages")]
     public void Scoop_Update_b()
     {

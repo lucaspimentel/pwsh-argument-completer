@@ -10,14 +10,14 @@ This tool provides intelligent tab completion for various command-line tools in 
 
 **Fully supported with parameters and nested subcommands:**
 - **git** - Version control (add, commit, push, pull, status, branch, checkout, etc.)
+  - 🔄 Dynamic completions: branches, remotes, tags
 - **gh** - GitHub CLI (pr, issue, repo, auth, etc.)
 - **tre** - Tree viewer with improved output
 - **lsd** - LSDeluxe, modern `ls` replacement
 - **dust** - Disk usage analyzer
 - **winget** - Windows Package Manager (Windows only)
-
-**Intermediate support (subcommands with some parameters):**
-- **scoop** - Package manager (Windows only, with dynamic completions for installed packages)
+- **scoop** - Package manager (Windows only)
+  - 🔄 Dynamic completions: installed packages for update, uninstall, cleanup, hold, unhold, reset
 
 **Basic support (subcommands only, parameters coming soon):**
 - **az** - Azure CLI

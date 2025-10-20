@@ -131,14 +131,42 @@ public static class ScoopCommand
 
     private static IEnumerable<DynamicArgument> GetInstalledPackages()
     {
+        var foundHeader = false;
         foreach (var line in Helpers.ExecuteCommand("scoop", "list"))
         {
-            if (!string.IsNullOrWhiteSpace(line) &&
-                !line.StartsWith("Installed apps:") &&
-                !line.StartsWith("\e[32;1m"))
+            if (string.IsNullOrWhiteSpace(line))
             {
-                var index = line.IndexOf(' ');
-                yield return new DynamicArgument(index == -1 ? line : line[..index]);
+                continue;
+            }
+
+            // Skip the "Installed apps:" line
+            if (line.StartsWith("Installed apps:", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            // Skip header line (contains ANSI color codes like [32;1m)
+            if (line.Contains("[32;1m"))
+            {
+                foundHeader = true;
+                continue;
+            }
+
+            // Skip separator line (contains "----")
+            if (line.Contains("----"))
+            {
+                continue;
+            }
+
+            // Only start yielding results after we've seen the header
+            if (foundHeader)
+            {
+                var trimmed = line.TrimStart();
+                if (trimmed.Length > 0)
+                {
+                    var index = trimmed.IndexOf(' ');
+                    yield return new DynamicArgument(index == -1 ? trimmed : trimmed[..index]);
+                }
             }
         }
     }
