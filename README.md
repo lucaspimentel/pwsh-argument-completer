@@ -16,13 +16,15 @@ This tool provides intelligent tab completion for various command-line tools in 
 - **dust** - Disk usage analyzer
 - **winget** - Windows Package Manager (Windows only)
 
+**Intermediate support (subcommands with some parameters):**
+- **scoop** - Package manager (Windows only, with dynamic completions for installed packages)
+
 **Basic support (subcommands only, parameters coming soon):**
 - **az** - Azure CLI
 - **azd** - Azure Developer CLI
 - **func** - Azure Functions Core Tools
 - **chezmoi** - Dotfiles manager
 - **code** - VS Code
-- **scoop** - Package manager (Windows only)
 
 ### Features
 
@@ -179,6 +181,9 @@ PS> gh pr view --<Tab>
 ```powershell
 PS> scoop update <Tab>
 # Shows your installed scoop packages: git, python, nodejs, etc.
+
+PS> scoop uninstall <Tab>
+# Shows your installed scoop packages to uninstall
 
 PS> git checkout <Tab>
 # Shows your git branches: main, develop, feature/new-feature, etc.

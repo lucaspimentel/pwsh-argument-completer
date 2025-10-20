@@ -363,6 +363,7 @@ Currently implemented completions with their completion level:
 - **chezmoi** - Dotfiles manager (subcommands only, cross-platform)
 - **code** - VS Code (basic parameters, cross-platform)
 - **scoop** - Package manager (Windows-only)
-  - 🔄 Dynamic completions: installed packages for `scoop update`
+  - 🔄 Dynamic completions: installed packages for `scoop update`, `scoop uninstall`, `scoop cleanup`, `scoop hold`, `scoop unhold`, and `scoop reset`
+  - Parameters with aliases for common commands
 
 **Note:** When adding any new command, remember to also register it in the PowerShell module (`module/PwshArgumentCompleter.psm1`). If the command is platform-specific, add appropriate platform guards. See README.md for the list of future command candidates.
