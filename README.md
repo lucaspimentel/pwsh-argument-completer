@@ -1,3 +1,5 @@
+⚠️ *NOTE: this project has moved to https://github.com/lucaspimentel/PSCue*
+
 # PowerShell Argument Completer
 
 A fast, native PowerShell argument completer for common CLI tools, written in C# and compiled to a native executable using NativeAOT for optimal performance.
